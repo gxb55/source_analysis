@@ -1,0 +1,209 @@
+1.paxos算法
+
+proposer
+curator
+
+QuorumPeerMain 入口
+1.配置文件读取
+    args[0]其实就是zoo.cfg ；
+    org.apache.zookeeper.server.quorum.QuorumPeerConfig.parseProperties就是初始化QuorumPeerConfig类中的各个属性
+2.快照日志删除
+3.项目启动
+4.从快照中读取数据 从log中读取数据  都在 org.apache.zookeeper.server.persistence.FileTxnSnapLog.restore
+5.开始选举 org.apache.zookeeper.server.quorum.QuorumPeer.startLeaderElection
+
+主要就是FastLeaderElection  和 QuorumPeer中的队列和worker
+    初始化QuorumPeer中的各种队列     this.recvQueue = new ArrayBlockingQueue<Message>(RECV_CAPACITY);
+                                 this.queueSendMap = new ConcurrentHashMap<Long, ArrayBlockingQueue<ByteBuffer>>();
+                                 this.senderWorkerMap = new ConcurrentHashMap<Long, SendWorker>();
+                                 this.lastMessageSent = new ConcurrentHashMap<Long, ByteBuffer>();
+                                  这些和外部交互的队列
+
+    QuorumCnxManager qcm = createCnxnManager();
+                QuorumCnxManager oldQcm = qcmRef.getAndSet(qcm);
+                if (oldQcm != null) {
+                    LOG.warn("Clobbering already-set QuorumCnxManager (restarting leader election?)");
+                    oldQcm.halt();
+                }
+                QuorumCnxManager.Listener listener = qcm.listener;
+                if(listener != null){
+                    listener.start();
+                    //FastLeaderElection 初始化产生选票的队列各种
+                    FastLeaderElection fle = new FastLeaderElection(this, qcm);
+                    fle.start();
+                    le = fle;
+                } else {
+                    LOG.error("Null listener when initializing cnx manager");
+                }
+
+
+
+
+
+
+20210724 源码再解读
+启动 ZK服务端初始化源码解析
+1.启动脚本中调用main方法 org.apache.zookeeper.server.quorum.QuorumPeerMain
+2.加载配置文件参数其实是zoo.cfg org.apache.zookeeper.server.quorum.QuorumPeerConfig.parse
+   2.1 格式化配置文件并且检查必备配置，其实是初始化QuorumPeerConfig类中的各个属性 org.apache.zookeeper.server.quorum.QuorumPeerConfig.parseProperties
+3.清除快照文件，默认是关闭的org.apache.zookeeper.server.DatadirCleanupManager.start
+    3.1 定时器的run方法来执行 org.apache.zookeeper.server.DatadirCleanupManager.PurgeTask.run
+    3.2 自定义文本过滤器，找到符合要求的快照文件然后delete org.apache.zookeeper.server.PurgeTxnLog.purgeOlderSnapshots
+4.启动服务端 org.apache.zookeeper.server.quorum.QuorumPeerMain.runFromConfig
+    4.1 初始化通信默认nio org.apache.zookeeper.server.ServerCnxnFactory.createFactory()
+    4.2 绑定启动端口2181 org.apache.zookeeper.server.NIOServerCnxnFactory.configure
+    4.3 服务端启动 org.apache.zookeeper.server.quorum.QuorumPeer.start
+
+----------------------------------------------------------------------------------------------------------------
+ZK 服务端加载数据源码解析
+zk中的数据以树状类存储数据分为内存和硬盘 zk 中的数据模型，是一棵树，DataTree，每个节点，叫做 DataNode
+内存数据：DataTree
+磁盘数据：快照文件（snapShot快照） + 编辑日志 （TxnLog）在log文件夹下面
+1.接上文中的start(),加载数据 org.apache.zookeeper.server.quorum.QuorumPeer.loadDataBase
+2.org.apache.zookeeper.server.ZKDatabase.loadDataBase
+    2.1 反序列化重做日志，可能有多个在这里循环下面的方法都会循环去调用 org.apache.zookeeper.server.persistence.FileSnap.deserialize(org.apache.zookeeper.server.DataTree, java.util.Map<java.lang.Long,java.lang.Integer>)
+    2.2 其实刚开始调用的带的哪个DataTree是个空的，读取重做日志然后写入其中 org.apache.zookeeper.server.util.SerializeUtils.deserializeSnapshot
+    2.3 注意这个方法是DataTree的一个方法，这个对象中的值开始被赋值，多个节点会从最下面一个节点开始赋值 org.apache.zookeeper.server.DataTree.deserialize
+3.处理快照文件，注意这里传入的DataTree跟上面的哪个重做日志方法入参的对象是同一个 org.apache.zookeeper.server.persistence.FileTxnSnapLog.fastForwardFromEdits
+    3.1 根据具体的类型来重新写入文件中去 org.apache.zookeeper.server.persistence.FileTxnSnapLog.processTransaction
+    3.2 进一步的根据类型去处理 org.apache.zookeeper.server.DataTree.processTxn(org.apache.zookeeper.txn.TxnHeader, org.apache.jute.Record, boolean)
+
+----------------------------------------------------------------------------------------------------------------
+
+ZK选举源码解析
+1.启动选举
+2.leader故障运行中选举
+具体选举流程看PDF
+SID：服务器ID。用来唯一标识一台ZooKeeper集群中的机器，每台机器不能重复，和myid一致。
+ZXID：事务ID。ZXID是一个事务ID，用来标识一次服务器状态的变更。在某一时刻，集群中的每台机器的ZXID值不一定完全一致，这和ZooKeeper服务器对于客户端“更新请求”的处理逻辑有关。
+Epoch：每个Leader任期的代号。没有Leader时同一轮投票过程中的逻辑时钟值是相同的。每投完一次票这个数据就会增加
+
+QuorumPeer.FastLeaderElection，QuorumCnManager QuorumPeer；
+流程大致梳理
+选举别的实例
+生成选票-》sendqueue-》WorkerSender-》sendQueue-》SendWorker-》QuorumPeer
+选举自己
+生成选票-》sendqueue-》WorkerSender-》recvQueue-》WorkerReceiver-》recequeue-》处理选票
+别人选举你
+QuorumPeer-》recvWorker-》recvQueue-》WorkerReceiver-》recequeue-》处理选票
+
+接上文加载日志文件启动zk
+1.根据状态新建选票 org.apache.zookeeper.server.quorum.QuorumPeer.startLeaderElection
+    1.1 org.apache.zookeeper.server.quorum.QuorumPeer.createElectionAlgorithm
+    1.2.初始化QuorumCnxManager中的队列和处理器 org.apache.zookeeper.server.quorum.QuorumCnxManager.QuorumCnxManager
+2.监听器阻塞监听别人的选票 org.apache.zookeeper.server.quorum.QuorumCnxManager.Listener.run
+3.初始化自己投票所需的阻塞队列和work org.apache.zookeeper.server.quorum.FastLeaderElection.FastLeaderElection
+
+上述流程只是初始化了选举前的一些内容，初始化并没有真正的选举
+ super.start(); 选举开始
+1.开始选举 找到对应的leaderorg.apache.zookeeper.server.quorum.QuorumPeer.run-- setCurrentVote(makeLEStrategy().lookForLeader())
+2.org.apache.zookeeper.server.quorum.FastLeaderElection.lookForLeader ，
+    2.1 更新选票 org.apache.zookeeper.server.quorum.FastLeaderElection.updateProposal
+    2.2 发送选票其实就是向sendqueue中添加选票 org.apache.zookeeper.server.quorum.FastLeaderElection.sendNotifications
+3.从sendqueue中取元素然后处理 org.apache.zookeeper.server.quorum.FastLeaderElection.Messenger.WorkerSender
+4.判断是选举的自己还是选举的别人如果是自己则直接进入队列，如果是选举别人，则进入其他队列 org.apache.zookeeper.server.quorum.QuorumCnxManager.toSend
+5.选举他人，链接发送选票 org.apache.zookeeper.server.quorum.QuorumCnxManager.connectOne(long, java.net.InetSocketAddress)
+6.接收别人的选票，自己的选票发出去，work开始处理任务 org.apache.zookeeper.server.quorum.QuorumCnxManager.startConnection
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------
+
+ 1.服务端 Leader 启动
+这个时候选举完成了，已经决定了我是leader角色，我只需处理lead要做的事情
+1.1 读取request
+1.2 处理信息
+启动 org.apache.zookeeper.server.quorum.LeaderZooKeeperServer.startup
+请求处理器 org.apache.zookeeper.server.ZooKeeperServer.setupRequestProcessors
+请求线程处理请求 org.apache.zookeeper.server.PrepRequestProcessor.run
+根据请求类型具体处理 org.apache.zookeeper.server.PrepRequestProcessor.pRequest
+请求的时候是一个线程起来，监听客户端请求，根据请求类型做不同的处理
+zk单线程响应用户请求？
+
+----------------------------------------------------------------------------------------------------------------------------------------
+2.Follower 启动
+身份确定，干自己角色的事情
+2.1 入口函数 org.apache.zookeeper.server.quorum.Follower.followLeader
+2.2 寻找leader org.apache.zookeeper.server.quorum.Learner.findLeader
+2.3 读取leader数据 org.apache.zookeeper.server.quorum.Learner.readPacket
+2.4 处理leader的数据 org.apache.zookeeper.server.quorum.Follower.processPacket
+
+
+
+
+
+
+cenos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+从快照中恢复数据 org.apache.zookeeper.server.DataTree.deserialize
+边界日志恢复数据 org.apache.zookeeper.server.DataTree.processTxn(org.apache.zookeeper.txn.TxnHeader, org.apache.jute.Record, boolean)
+
+开始选举 org.apache.zookeeper.server.quorum.QuorumPeer.startLeaderElection
+
+
+
+QuorumCnxManager
+org.apache.zookeeper.server.quorum.QuorumCnxManager.QuorumCnxManager
+
+别人投票给自己的队列，即接受别人选票  recvWorker 收
+this.recvQueue = new ArrayBlockingQueue<Message>(RECV_CAPACITY);
+我投给别人的选票， SendWorker 发
+this.queueSendMap = new ConcurrentHashMap<Long, ArrayBlockingQueue<ByteBuffer>>();
+分为SendWorker 和 recvWorker 分别处理我发送给别人的选票，和别人跟我交互的选票
+this.senderWorkerMap = new ConcurrentHashMap<Long, SendWorker>();
+this.lastMessageSent = new ConcurrentHashMap<Long, ByteBuffer>();
+
+
+org.apache.zookeeper.server.quorum.FastLeaderElection.FastLeaderElection
+
+private void starter(QuorumPeer self, QuorumCnxManager manager) {
+    this.self = self;
+    proposedLeader = -1;
+    proposedZxid = -1;
+    发送选票
+    sendqueue = new LinkedBlockingQueue<ToSend>();
+    接收选票
+    recvqueue = new LinkedBlockingQueue<Notification>();
+    this.messenger = new Messenger(manager);
+}
+
+1.发送选票 org.apache.zookeeper.server.quorum.FastLeaderElection.sendNotifications
+
+
+org.apache.zookeeper.ZooKeeperMain 客户端启动
+
+
+
+
+
+
+
+
+zk很多的阻塞队列和工作线程，阻塞队列往里面抛任务，工作线程负责从中获取任务然后线程去运行
+分为三步
+QuorumPeerMain
+1.服务端启动

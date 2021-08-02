@@ -1,0 +1,35 @@
+package com.trip.spring_mybatis.service.impl;
+
+import com.trip.spring_mybatis.config.result.BaseResult;
+import com.trip.spring_mybatis.config.result.ResultEnum;
+import com.trip.spring_mybatis.config.result.ResultUtil;
+import com.trip.spring_mybatis.dao.CustomerSaleDao;
+import com.trip.spring_mybatis.dao.TblHotLineDao;
+import com.trip.spring_mybatis.pojo.dto.CustomerSale;
+import com.trip.spring_mybatis.pojo.dto.TblHotLine;
+import com.trip.spring_mybatis.service.MainService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * @author Administrator
+ */
+@Service
+public class MainServiceImpl implements MainService {
+    @Autowired
+    private TblHotLineDao tblHotLineDao;
+    @Autowired
+    private CustomerSaleDao customerSaleDao;
+
+    @Override
+    public BaseResult<TblHotLine> queryHotLineById(Integer id) {
+        TblHotLine tblHotLine = tblHotLineDao.findById(id);
+        return ResultUtil.buildResult(ResultEnum.SUCCESS, tblHotLine);
+    }
+
+    @Override
+    public BaseResult<CustomerSale> queryCustomerSaleById(Integer id) {
+        CustomerSale customerSale = customerSaleDao.findById(id);
+        return ResultUtil.buildResult(ResultEnum.SUCCESS, customerSale);
+    }
+}

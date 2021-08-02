@@ -1,0 +1,4 @@
+mybatis
+1.介绍mybatis
+2.mapper的加载方式
+package url resource class
