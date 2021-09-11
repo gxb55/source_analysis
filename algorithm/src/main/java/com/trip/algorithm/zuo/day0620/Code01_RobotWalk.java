@@ -7,9 +7,9 @@ package com.trip.algorithm.zuo.day0620;
  */
 public class Code01_RobotWalk {
     public static void main(String[] args) {
-        int walk = walk(7, 2, 5, 3);
-        int waysCache = waysCache(7, 2, 5, 3);
-        int dp = waysDp(7, 2, 5, 3);
+        int walk = walk(7, 5, 2, 3);
+        int waysCache = waysCache(7, 5, 2, 3);
+        int dp = waysDp(7, 5, 2, 3);
         System.out.println(walk);
         System.out.println(waysCache);
         System.out.println(dp);

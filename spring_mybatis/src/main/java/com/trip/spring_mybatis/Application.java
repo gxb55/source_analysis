@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author Administrator
  */
-@MapperScan("com.trip.spring_mybatis.dao")
+@MapperScan(basePackages = "com.trip.spring_mybatis.dao")
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
