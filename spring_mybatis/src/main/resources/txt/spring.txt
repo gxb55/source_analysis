@@ -56,3 +56,6 @@ after-》afterReturn->afterThrowing->目标函数，
 
 org.springframework.aop.framework.CglibAopProxy.DynamicAdvisedInterceptor.intercept
 在这个方法中即把责任链的拦截函数执行，也把自己的方法执行了，最后返回
+
+1.org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
+方法的afterBeanPostProcess

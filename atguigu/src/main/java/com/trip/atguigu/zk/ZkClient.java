@@ -1,6 +1,5 @@
 package com.trip.atguigu.zk;
 
-import lombok.SneakyThrows;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
@@ -15,12 +14,18 @@ public class ZkClient {
 
     public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
         zkCli = new ZooKeeper(host, 2000, new Watcher() {
-            @SneakyThrows
             @Override
             public void process(WatchedEvent watchedEvent) {
                 Event.EventType type = watchedEvent.getType();
                 System.out.println(type);
-                List<String> children = zkCli.getChildren("/", true);
+                List<String> children = null;
+                try {
+                    children = zkCli.getChildren("/", true);
+                } catch (KeeperException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 for (int i = 0; i < children.size(); i++) {
                     System.out.println(children.get(i));
                 }

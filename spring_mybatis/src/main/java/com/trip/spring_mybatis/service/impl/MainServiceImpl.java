@@ -23,6 +23,7 @@ public class MainServiceImpl implements MainService {
     @Autowired
     private CustomerSaleDao customerSaleDao;
 
+
     @Override
     @Clog
     public BaseResult<TblHotLine> queryHotLineById(Integer id) {
@@ -39,6 +40,7 @@ public class MainServiceImpl implements MainService {
     }
 
     public MainServiceImpl() {
+        System.out.println(this);
         System.out.println("初始化了");
     }
 }

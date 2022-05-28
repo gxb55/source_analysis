@@ -7,6 +7,7 @@ import java.util.Stack;
 /**
  * @author Administrator
  * 并查集
+ * 训练营第三期
  */
 public class Code01_UnionFind {
     public static class Node<V> {

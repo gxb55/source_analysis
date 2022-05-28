@@ -1,0 +1,108 @@
+FactoryBean 的缓存地方
+org.springframework.beans.factory.support.FactoryBeanRegistrySupport.factoryBeanObjectCache
+
+标准环境的创建
+org.springframework.core.env.StandardEnvironment.StandardEnvironment()
+
+
+spring启动解析xml需要BeansDtd和schema
+org.springframework.beans.factory.xml.ResourceEntityResolver.ResourceEntityResolver
+
+this.dtdResolver = new BeansDtdResolver();
+this.schemaResolver = new PluggableSchemaResolver(classLoader);
+
+ResourcePatternResolver 创建的时候是根据是xml启动就直接创建了，后面解析xml的时候使用
+org.springframework.core.io.support.PathMatchingResourcePatternResolver.PathMatchingResourcePatternResolver(org.springframework.core.io.ResourceLoader)
+
+解析bean标签
+org.springframework.beans.factory.xml.BeanDefinitionParserDelegate.parseBeanDefinitionElement(org.w3c.dom.Element, java.lang.String, org.springframework.beans.factory.config.BeanDefinition)
+
+解析xml中的各种数据类型，比如map，list，
+org.springframework.beans.factory.xml.BeanDefinitionParserDelegate.parsePropertySubElement(org.w3c.dom.Element, org.springframework.beans.factory.config.BeanDefinition, java.lang.String)
+
+区分出默认元素和扩展元素，比如context
+org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader.parseBeanDefinitions
+
+
+属性解析器
+org.springframework.beans.factory.config.ConfigurableBeanFactory.addPropertyEditorRegistrar
+1.org.springframework.beans.PropertyEditorRegistrar 接口注入实体对象
+2.java.beans.PropertyEditorSupport  实体对象
+3.org.springframework.beans.factory.config.CustomEditorConfigurer 注册入spring
+
+
+属性解析器
+org.springframework.beans.factory.config.CustomEditorConfigurer
+自定义属性解析
+入口在 org.springframework.beans.factory.support.AbstractBeanFactory.addPropertyEditorRegistrar
+
+initbean的时候会调用这个方法
+org.springframework.beans.support.ResourceEditorRegistrar.registerCustomEditors
+
+
+aware接口，子类设置值的在这里执行方法
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeAwareMethods
+ware接口处理了三个方法，在构建beanfactory的时候忽略了这几个类
+这里忽略了这几个类
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.AbstractAutowireCapableBeanFactory()
+
+
+通过BeanPostProcessor扩展实现
+org.springframework.context.support.ApplicationContextAwareProcessor
+在下面忽略了这六个类，通过后置处理器处理的
+        beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
+		beanFactory.ignoreDependencyInterface(EmbeddedValueResolverAware.class);
+		beanFactory.ignoreDependencyInterface(ResourceLoaderAware.class);
+		beanFactory.ignoreDependencyInterface(ApplicationEventPublisherAware.class);
+		beanFactory.ignoreDependencyInterface(MessageSourceAware.class);
+		beanFactory.ignoreDependencyInterface(ApplicationContextAware.class);
+		beanFactory.ignoreDependencyInterface(ApplicationStartupAware.class);
+
+
+
+org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(org.springframework.beans.factory.config.ConfigurableListableBeanFactory, java.util.List<org.springframework.beans.factory.config.BeanFactoryPostProcessor>) 方法
+先处理外部的再处理内部的
+先处理子类，再处理父类
+
+
+对应关系映射类
+org.springframework.context.annotation.AnnotationConfigUtils
+无敌重要的一个类，类里面解析各种各样的注解
+org.springframework.context.annotation.ConfigurationClassPostProcessor
+调用到这里  Component PropertySources ComponentScans
+org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass
+
+
+如果是xml则配置了scanpackage
+springboot  org.springframework.boot.SpringApplication.prepareContext 在这里扫描通过配置的启动类
+org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan
+扫描后，扫描到的是这种类型的
+org.springframework.context.annotation.ScannedGenericBeanDefinition
+
+被这些注解修饰的
+org.springframework.context.annotation.ConfigurationClassUtils.isConfigurationCandidate
+
+获取beanname相关的，beanname规则
+org.springframework.beans.factory.support.BeanNameGenerator
+
+实际解析各种注解
+org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass
+
+1.Component
+所有的@controller @server都是component，这个类会递归解析子类
+2.PropertySources
+如果带有这个注解，则会去对应的读取配置文件放入org.springframework.core.env.MutablePropertySources 放入到这里面
+3.ComponentScans
+会解析这个注解，然后根据注解中的内容去扫描包下面的.class文件然后在解析成对应的BeanDefinitionHolder
+4.@Bean
+如果一个类上面有这个注解，会解析这个类，并且解析类里面的方法，方法上面也有可能会配置这个注解
+5Import
+如果一个类上面用了这个注解，import里面对应的类也会被解析到解析到，类比springboot自动装配
+1.解析放入
+org.springframework.context.annotation.ConfigurationClassParser.DeferredImportSelectorHandler.handle
+2.具体执行
+org.springframework.context.annotation.ConfigurationClassParser.DeferredImportSelectorHandler.process
+3.获取entry对象
+org.springframework.context.annotation.ConfigurationClassParser.DeferredImportSelectorGroupingHandler.processGroupImports
+4.这个方法是入口，会调用到自动注入的类
+org.springframework.boot.autoconfigure.AutoConfigurationImportSelector.selectImports

@@ -1,5 +1,6 @@
 package com.trip.atguigu.zk;
 
+import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;

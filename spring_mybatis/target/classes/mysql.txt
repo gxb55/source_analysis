@@ -1,0 +1,95 @@
+mysql默认数据库隔离级别 RR REPEATABLE READ
+oracle默认数据库隔离级别 RC READ COMMITTED
+READ UNCOMMITTED  | REPEATABLE READ | SERIALIZABLE
+
+rr 不可重复读，读的视图是事务开启的时候的；防止脏度 不可重复读
+rc 读已提交，读的是语句执行的时候的视图；防止脏度；
+
+
+- READ-UNCOMMITTED(读取未提交)： 事务的修改，即使没有提交，对其他事务也都是可见的。事务能够读取未提交的数据，这种情况称为脏读。
+- READ-COMMITTED(读取已提交)： 事务读取已提交的数据，大多数数据库的默认隔离级别。当一个事务在执行过程中，数据被另外一个事务修改，造成本次事务前后读取的信息不一样，这种情况称为不可重复读。
+- REPEATABLE-READ(可重复读)： 这个级别是MySQL的默认隔离级别，它解决了脏读的问题，同时也保证了同一个事务多次读取同样的记录是一致的，但这个级别还是会出现幻读的情况。幻读是指当一个事务A读取某一个范围的数据时，另一个事务B在这个范围插入行，A事务再次读取这个范围的数据时，会产生幻读
+- SERIALIZABLE(可串行化)： 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读
+
+虚读是因为视图转换了一次，查询的时候是快照读，不会读到别的事务的内容，但是这个时候如果 update，delete，insert，都是当前读，
+会更新读的视图，这个时候再去查询就会发现多了一条数据，
+
+快照读-->当前读，就会产生虚度  间隙锁 + mvcc
+
+查看数据库隔离级别
+select @@global.tx_isolation
+设置数据库隔离级别
+set global transaction isolation level read uncommitted
+mysql查看锁状态
+show engine innodb status\G;
+
+mysql 打开锁信息
+set global innodb_status_output_locks = 1;
+
+查看 锁信息是否打开
+show variable like '%innodb%';
+
+
+
+
+设置自动提交关闭
+set autocommit = 1;
+
+1.读以提交，和不可重复读；
+
+各种树，局部性原理，磁盘预读；
+
+减少io；数据结构；
+
+
+
+mysql索引数据解决为什么使用B+树；
+树，二叉树，两个叶子节点，深度会变深，检索效率变低；
+avl树，平衡二叉树，每次要翻转；
+红黑树
+b树 叶子节点和非叶子节点都是即存数据也存key，空间浪费，检索速度变慢；范围查询不好，叶子节点之间没有指针；
+b+树 叶子节点会存key和数据，而非叶子节点只存key，key的范围；范围查询比较好；
+
+每次读取16k，读的少，读的快；
+
+
+索引
+io；
+数据结构；
+
+强制使用索引；
+索引修复；
+
+MMM  MHA MGR；
+
+shardingsphere
+
+
+MTS
+
+
+
+show variables like "%innodb_status%";
+set global innodb_status_output_locks = 1;
+show engine status innodb\G;
+
+set session transaction isolation level read committed;
+
+select @@transaction_isolation;
+UUID 为什么不适合做主键
+1.没有顺序
+2.页分裂
+3.随机IO
+4.
+
+
+
+
+
+
+
+
+
+
+
+

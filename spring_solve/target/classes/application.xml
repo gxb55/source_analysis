@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+>
+
+    <bean id ="car" class="com.trip.spring.solve.bean.Car"></bean>
+
+    <bean id="customEditorConfigurer" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="propertyEditorRegistrars">
+            <list>
+                <bean class="com.trip.spring.solve.bean.resourceeditor.AddressResourceEditorRegistrar"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customer" class="com.trip.spring.solve.bean.resourceeditor.Customer">
+        <property name="name" value="hi"></property>
+        <property name="address" value="河南_南阳_新野"></property>
+    </bean>
+
+    <context:component-scan base-package="com.trip.spring.solve"></context:component-scan>
+
+
+</beans>
