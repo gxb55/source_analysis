@@ -1,0 +1,5 @@
+## spring的bean都放在那里了
+
+
+* org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors
+* org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry

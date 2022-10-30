@@ -13,9 +13,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class Main {
     public static void main(String[] args) {
-        //annotationStart();
+        annotationStart();
 
-        xmlStart();
+        //xmlStart();
     }
 
     private static void annotationStart() {
@@ -27,9 +27,7 @@ public class Main {
         System.out.println("calculate.add: " + add);
 
         Object b = context.getBean("personFactoryBean");
-        Object b1 = context.getBean("personFactoryBean");
         System.out.println(b);
-        System.out.println(b1);
     }
 
     private static void xmlStart() {

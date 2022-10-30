@@ -40,7 +40,7 @@ public class MainServiceImpl implements MainService {
     }
 
     public MainServiceImpl() {
-        System.out.println(this);
-        System.out.println("初始化了");
+       /* System.out.println(this);
+        System.out.println("初始化了");*/
     }
 }

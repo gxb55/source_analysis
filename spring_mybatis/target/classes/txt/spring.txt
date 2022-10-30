@@ -59,3 +59,14 @@ org.springframework.aop.framework.CglibAopProxy.DynamicAdvisedInterceptor.interc
 
 1.org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
 方法的afterBeanPostProcess
+
+
+
+5.@Autowired 注解是如何注入bean的；
+解析bean信息，如果在属性上或者方法上面有这个注解则存在缓存里面
+5.1 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyMergedBeanDefinitionPostProcessors
+5.2 popularBean的时候会填充属性
+5.3 org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate 最后调用这个方法注入bean属性
+
+org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessMergedBeanDefinition 找到要处理的类
+org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties 填充对应的属性

@@ -1,7 +1,6 @@
 package com.trip.algorithm.leet.graph;
 
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 边类

@@ -106,3 +106,14 @@ org.springframework.context.annotation.ConfigurationClassParser.DeferredImportSe
 org.springframework.context.annotation.ConfigurationClassParser.DeferredImportSelectorGroupingHandler.processGroupImports
 4.这个方法是入口，会调用到自动注入的类
 org.springframework.boot.autoconfigure.AutoConfigurationImportSelector.selectImports
+
+
+
+
+入口类
+org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization
+
+1.org.springframework.context.support.ConversionServiceFactoryBean
+通过factoryBean向下面的类注入转换器
+org.springframework.core.convert.support.ConversionServiceFactory.registerConverters
+属性转换器，

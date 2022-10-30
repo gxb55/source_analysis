@@ -6,10 +6,11 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.28" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.4" level="project" />
+    <orderEntry type="library" name="Maven: org.openjdk.jol:jol-core:0.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.5.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.5.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.9" level="project" />
