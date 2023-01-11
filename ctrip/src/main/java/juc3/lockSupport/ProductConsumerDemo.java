@@ -75,7 +75,7 @@ class FoodProductLock {
 
     }
 
-    public synchronized void eat() throws InterruptedException {
+    public  void eat() throws InterruptedException {
         while (true) {
             lock.lock();
             if (i == 0) {

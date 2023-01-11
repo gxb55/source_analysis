@@ -13,6 +13,17 @@ import org.openjdk.jol.info.ClassLayout;
  */
 public class ObjectHeadDemo {
     public static void main(String[] args) throws InterruptedException {
+        Object o = new Object();
+        System.out.println(ClassLayout.parseInstance(o).toPrintable());
+        o.hashCode();
+        System.out.println(Integer.toHexString(o.hashCode()));
+        System.out.println(Integer.toBinaryString(o.hashCode()));
+        //110111011010110100001000110011
+        //00110111011010110100001000110011
+        System.out.println(ClassLayout.parseInstance(o).toPrintable());
+    }
+
+    private static void test01() throws InterruptedException {
         Thread.sleep(5000);
         Object o = new Object();
 
