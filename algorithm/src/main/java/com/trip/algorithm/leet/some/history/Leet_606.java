@@ -1,6 +1,8 @@
 package com.trip.algorithm.leet.some.history;
 
 
+import com.trip.algorithm.base.TreeNode;
+
 /**
  * 606. 根据二叉树创建字符串
  * 你需要采用前序遍历的方式，将一个二叉树转换成一个由括号和整数组成的字符串。
@@ -82,9 +84,9 @@ public class Leet_606 {
         TreeNode treeNode = new TreeNode(1);
         TreeNode treeNode1 = new TreeNode(2);
         treeNode1.setLeft(new TreeNode(4));
-        TreeNode treeNode2 = new TreeNode(3);
+        TreeNode treeNode12 = new TreeNode(3);
         treeNode.setLeft(treeNode1);
-        treeNode.setRight(treeNode2);
+        treeNode.setRight(treeNode12);
         Leet_606 leet_606 = new Leet_606();
         String s = leet_606.tree2str(treeNode);
         System.out.println(s);

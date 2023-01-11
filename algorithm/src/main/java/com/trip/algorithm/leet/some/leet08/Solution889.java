@@ -1,6 +1,6 @@
 package com.trip.algorithm.leet.some.leet08;
 
-import com.trip.study.algorithm.tree.TreeNode;
+import com.trip.algorithm.base.TreeNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,7 +100,7 @@ public class Solution889 {
         return build(preorder,0,preorder.length-1,postorder,0,postorder.length-1);
     }
 
-    TreeNode build(int[] preorder,int preStart,int preEnd,int[] postorder,int postStart,int postEnd){
+    TreeNode build(int[] preorder, int preStart, int preEnd, int[] postorder, int postStart, int postEnd){
         if(postStart > postEnd) {
             return null;
         }

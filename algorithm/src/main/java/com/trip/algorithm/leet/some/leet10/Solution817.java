@@ -1,6 +1,6 @@
 package com.trip.algorithm.leet.some.leet10;
 
-import com.trip.study.leetcode.history.ListNode;
+import com.trip.algorithm.leet.some.history.ListNode;
 
 import java.util.ArrayList;
 import java.util.List;

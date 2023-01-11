@@ -1,6 +1,6 @@
 package com.trip.algorithm.codethink.linkedlist;
 
-import com.trip.study.leetcode.history.ListNode;
+import com.trip.algorithm.leet.some.history.ListNode;
 
 /**
  * @auther: xbguo
@@ -30,7 +30,7 @@ public class Solution19 {
         ListNode listNode1 = ListNode.buildListNode(new int[]{1,2});
         int n = 2;
         ListNode listNode = solution19.removeNthFromEnd(listNode1, n);
-        ListNode.print(listNode);
+        ListNode.printNode(listNode);
     }
 
     public ListNode removeNthFromEnd(ListNode head, int n) {

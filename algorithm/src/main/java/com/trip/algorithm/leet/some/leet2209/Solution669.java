@@ -1,7 +1,7 @@
 package com.trip.algorithm.leet.some.leet2209;
 
 
-import com.trip.algorithm.leet.some.history.TreeNode;
+import com.trip.algorithm.base.TreeNode;
 
 /**
  * @author xbguo

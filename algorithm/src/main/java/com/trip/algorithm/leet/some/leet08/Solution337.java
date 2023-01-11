@@ -1,6 +1,8 @@
 package com.trip.algorithm.leet.some.leet08;
 
-import com.trip.study.algorithm.tree.TreeNode;
+
+
+import com.trip.algorithm.base.TreeNode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,21 +55,21 @@ public class Solution337 {
         int p6 = 0;
         // 当前结点可选
         if (flag) {
-            p1 = process(root.left, false, true) + process(root.right, false, true) + Integer.valueOf(String.valueOf(root.v));
+            p1 = process(root.left, false, true) + process(root.right, false, true) + Integer.valueOf(String.valueOf(root.val));
             if (root.left != null) {
-                p2 = process(root.left, false, false) + process(root.right, true, true) + Integer.valueOf(String.valueOf(root.left.v));
+                p2 = process(root.left, false, false) + process(root.right, true, true) + Integer.valueOf(String.valueOf(root.left.val));
             }
             if (root.right != null) {
-                p3 = process(root.left, true, true) + process(root.right, false, false) + Integer.valueOf(String.valueOf(root.right.v));
+                p3 = process(root.left, true, true) + process(root.right, false, false) + Integer.valueOf(String.valueOf(root.right.val));
             }
             p6 = process(root.left, true, true) + process(root.right, true, true);
         } else {
             if (chirdFlag) {
                 if (root.left != null) {
-                    p4 = process(root.left, false, false) + process(root.right, false, true) + Integer.valueOf(String.valueOf(root.left.v));
+                    p4 = process(root.left, false, false) + process(root.right, false, true) + Integer.valueOf(String.valueOf(root.left.val));
                 }
                 if (root.right != null) {
-                    p5 = process(root.left, false, true) + process(root.right, false, false) + Integer.valueOf(String.valueOf(root.right.v));
+                    p5 = process(root.left, false, true) + process(root.right, false, false) + Integer.valueOf(String.valueOf(root.right.val));
                 }
                 p6 = process(root.left, true, true) + process(root.right, true, true);
             }

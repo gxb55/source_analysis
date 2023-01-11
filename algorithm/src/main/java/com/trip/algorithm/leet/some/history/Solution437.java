@@ -1,5 +1,7 @@
 package com.trip.algorithm.leet.some.history;
 
+import com.trip.algorithm.base.TreeNode;
+
 /**
  * @author xbguo
  * @date 2022/7/12  19:34
@@ -46,7 +48,7 @@ public class Solution437 {
         int targetSum = 8;
 
         Solution437 solution437 = new Solution437();
-        TreeNode treeNode = TreeNode.arrayToTreeNode(root);
+        TreeNode treeNode = TreeNode.createTreeNode(root);
         int i = solution437.pathSum(treeNode, targetSum);
         System.out.println(i);
     }

@@ -93,7 +93,7 @@ public class Leet_39 {
             Optional<List<Integer>> first = list.stream().filter(x -> x.size() == tempList.size()).filter(x -> {
                 return x.toString().equals(collect.toString());
             }).findFirst();
-            if (first.isEmpty()) {
+            if (!first.isPresent()) {
                 List<Integer> resultList = new ArrayList<>();
                 resultList.addAll(collect);
                 list.add(resultList);

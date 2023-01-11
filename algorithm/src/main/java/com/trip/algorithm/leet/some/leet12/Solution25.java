@@ -1,6 +1,7 @@
 package com.trip.algorithm.leet.some.leet12;
 
-import com.trip.study.leetcode.history.ListNode;
+
+import com.trip.algorithm.leet.some.history.ListNode;
 
 /**
  * @author xbguo
@@ -14,7 +15,7 @@ public class Solution25 {
         int k = 3;
 
         ListNode listNode = solution25.reverseKGroup(listNode1, k);
-        ListNode.print(listNode);
+        ListNode.printNode(listNode);
     }
 
     public ListNode reverseKGroup(ListNode head, int k) {

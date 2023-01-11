@@ -1,6 +1,6 @@
 package com.trip.algorithm.codethink.linkedlist;
 
-import com.trip.study.leetcode.history.ListNode;
+import com.trip.algorithm.leet.some.history.ListNode;
 
 import java.util.Stack;
 

@@ -1,7 +1,6 @@
 package com.trip.algorithm.leet.some.leet08;
 
-import com.trip.study.algorithm.tree.TreeNode;
-import jodd.util.StringUtil;
+import com.trip.algorithm.base.TreeNode;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -62,7 +61,7 @@ public class Solution655 {
         for (List<String> list1 : list) {
             for (int i = 0; i < list1.size(); i++) {
                 String s = list1.get(i);
-                if (StringUtil.isEmpty(s)) {
+                if (s!=null) {
                     System.out.print("-" + " ");
                 } else {
                     System.out.print(s + " ");
@@ -133,7 +132,7 @@ public class Solution655 {
                 if (list2.get(j) == null) {
                     list3.add("");
                 } else {
-                    list3.add(String.valueOf(list2.get(j).v));
+                    list3.add(String.valueOf(list2.get(j).getVal()));
                 }
             }
             res.add(list3);

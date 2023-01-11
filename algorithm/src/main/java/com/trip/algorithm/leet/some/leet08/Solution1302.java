@@ -1,6 +1,6 @@
 package com.trip.algorithm.leet.some.leet08;
 
-import com.trip.study.algorithm.tree.TreeNode;
+import com.trip.algorithm.base.TreeNode;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -41,7 +41,7 @@ public class Solution1302 {
         }
         int sum = 0;
         for (TreeNode v : result) {
-            sum = sum + Integer.valueOf(String.valueOf(v.v));
+            sum = sum + Integer.valueOf(String.valueOf(v.getVal()));
         }
         return sum;
     }

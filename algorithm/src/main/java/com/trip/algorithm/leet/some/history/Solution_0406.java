@@ -1,5 +1,7 @@
 package com.trip.algorithm.leet.some.history;
 
+import com.trip.algorithm.base.TreeNode;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -50,7 +52,7 @@ public class Solution_0406 {
         System.out.println(treeNode1);
         TreeNode treeNode4 = solution_0406.inorderSuccessor2(treeNode2, null);*/
 
-        TreeNode treeNode = TreeNode.createTreeNode(new Integer[]{5, 3, 6, 2, 4, null, null, 1});
+        TreeNode treeNode = TreeNode.buildTree(new Integer[]{5, 3, 6, 2, 4, null, null, 1});
         TreeNode p = new TreeNode(1);
         Solution_0406 solution_0406 = new Solution_0406();
         TreeNode treeNode1 = solution_0406.inorderSuccessor(treeNode, p);

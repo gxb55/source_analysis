@@ -9,18 +9,16 @@ import java.util.Random;
  */
 public class Solution528 {
     public static void main(String[] args) {
-        int[] arr = {3,14,1,7};
-        Solution solution = new Solution(arr);
+        int[] arr = {3, 14, 1, 7};
+        Solution528 solution = new Solution528(arr);
         int i = solution.pickIndex();
         System.out.println(i);
     }
-}
 
-class Solution {
     int[] pre;
     int sum = 0;
 
-    public Solution(int[] w) {
+    public Solution528(int[] w) {
         int length = w.length;
         pre = new int[length + 1];
         pre[0] = 0;
@@ -39,7 +37,7 @@ class Solution {
             int mid = left + (right - left) / 2;
             if (pre[mid] == i) {
                 return mid;
-            }else if (pre[mid] < i) {
+            } else if (pre[mid] < i) {
                 may = mid;
                 left = mid + 1;
             } else {
@@ -49,5 +47,5 @@ class Solution {
         return may;
 
     }
-}
 
+}

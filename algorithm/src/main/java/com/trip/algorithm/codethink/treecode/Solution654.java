@@ -1,6 +1,7 @@
 package com.trip.algorithm.codethink.treecode;
 
-import com.trip.study.leetcode.TreeNode;
+
+import com.trip.algorithm.base.TreeNode;
 
 /**
  * @author xbguo

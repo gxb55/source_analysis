@@ -1,6 +1,6 @@
 package com.trip.algorithm.leet.some.leet08;
 
-import com.trip.study.algorithm.tree.TreeNode;
+import com.trip.algorithm.base.TreeNode;
 
 /**
  * @author xbguo
