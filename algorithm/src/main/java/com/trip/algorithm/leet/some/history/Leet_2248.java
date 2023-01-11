@@ -34,7 +34,7 @@ public class Leet_2248 {
             int i1 = num[j];
             for (int i = 1; i < length; i++) {
                 OptionalInt any = Arrays.stream(nums[i]).filter(x -> x == i1).findAny();
-                if (any.isEmpty()) {
+                if (!any.isPresent()) {
                     flag = false;
                     break;
                 }

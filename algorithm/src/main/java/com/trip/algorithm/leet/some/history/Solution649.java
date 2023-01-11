@@ -120,22 +120,23 @@ public class Solution649 {
         }
         return rList.remove(res);
     }
+    class Person {
+        public char name;
+        public boolean voteFlag;
+
+        public Person(char charAt) {
+            this.name = charAt;
+            this.voteFlag = true;
+        }
+
+        @Override
+        public String toString() {
+            return "Person{" +
+                    "name=" + name +
+                    ", voteFlag=" + voteFlag +
+                    '}';
+        }
+    }
 }
 
-class Person {
-    public char name;
-    public boolean voteFlag;
 
-    public Person(char charAt) {
-        this.name = charAt;
-        this.voteFlag = true;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "name=" + name +
-                ", voteFlag=" + voteFlag +
-                '}';
-    }
-}

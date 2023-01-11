@@ -1,10 +1,10 @@
 package com.trip.algorithm.leet.some.history;
 
 public class ListNode {
-    int val;
-    ListNode next;
+   public int val;
+    public  ListNode next;
 
-    ListNode() {
+    public ListNode() {
     }
 
     public ListNode(int val) {
@@ -39,6 +39,17 @@ public class ListNode {
             temp = temp.next;
         }
     }
+    public  void print() {
+        if (this == null) {
+            return;
+        }
+        ListNode temp = this;
+        while (temp != null) {
+            System.out.println(temp.val);
+            temp = temp.next;
+        }
+    }
+
 
     public int getVal() {
         return val;

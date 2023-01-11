@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         annotationStart();
 
-        //xmlStart();
+      //  xmlStart();
     }
 
     private static void annotationStart() {
@@ -32,9 +32,7 @@ public class Main {
 
     private static void xmlStart() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.xml");
-        /*Car car = (Car) applicationContext.getBean("car");
-        System.out.println(car);  */
-        Customer c = (Customer) applicationContext.getBean("customer");
-        System.out.println(c);
+        Customer bean = applicationContext.getBean(Customer.class);
+        System.out.println(bean);
     }
 }
