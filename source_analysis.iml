@@ -12,5 +12,6 @@
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.4" level="project" />
     <orderEntry type="library" name="Maven: org.openjdk.jol:jol-core:0.10" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.20" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:transmittable-thread-local:2.12.0" level="project" />
   </component>
 </module>

@@ -1,8 +1,7 @@
 package com.trip.algorithm.leet.some.history;
 
 
-import java.util.LinkedList;
-import java.util.Queue;
+import com.trip.algorithm.base.TreeNode;
 
 /**
  * @author xbguo
@@ -62,96 +61,3 @@ public class Solution235 {
 
 }
 
-class TreeNode {
-    public TreeNode left;
-    public TreeNode right;
-    public int val;
-
-    public TreeNode(int val) {
-        this.val = val;
-    }
-
-    public TreeNode() {
-    }
-
-    public TreeNode getLeft() {
-        return left;
-    }
-
-    public void setLeft(TreeNode left) {
-        this.left = left;
-    }
-
-    public TreeNode getRight() {
-        return right;
-    }
-
-    public void setRight(TreeNode right) {
-        this.right = right;
-    }
-
-    public int getVal() {
-        return val;
-    }
-
-    public void setVal(int val) {
-        this.val = val;
-    }
-
-    public static TreeNode createTreeNode(Integer[] arr) {
-        return process(arr, 0);
-    }
-
-
-    private static TreeNode process(Integer[] arr, int i) {
-        if (i >= arr.length) {
-            return null;
-        }
-        if (arr[i] != null) {
-            TreeNode root = new TreeNode();
-            root.setVal(arr[i]);
-            root.setLeft(process(arr, 2 * i + 1));
-            root.setRight(process(arr, 2 * i + 2));
-            return root;
-        }
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return "TreeNode{" +
-                "val=" + val +
-                '}';
-    }
-
-    public static TreeNode arrayToTreeNode(Integer[] array){
-        if(array.length == 0){
-            return null;
-        }
-        TreeNode root = new TreeNode(array[0]);
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        boolean isLeft = true;
-        for(int i = 1; i < array.length; i++){
-            TreeNode node = queue.peek();
-            if(isLeft){
-                if(array[i] != null){
-                    node.left = new TreeNode(array[i]);
-                    queue.offer(node.left);
-                }
-                isLeft = false;
-            }else {
-                if(array[i] != null){
-                    node.right = new TreeNode(array[i]);
-                    queue.offer(node.right);
-                }
-                queue.poll();
-                isLeft = true;
-            }
-        }
-        return root;
-    }
-
-
-
-}

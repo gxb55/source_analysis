@@ -1,6 +1,7 @@
 package com.trip.algorithm.leet.some.codeThink.tree;
 
-import com.trip.algorithm.leet.some.history.TreeNode;
+
+import com.trip.algorithm.base.TreeNode;
 
 /**
  * @author xbguo
@@ -9,7 +10,7 @@ import com.trip.algorithm.leet.some.history.TreeNode;
 public class Morris {
     public static void main(String[] args) {
         Integer[] arr = new Integer[]{1, 2, 3, 4, 5, 6, 7};
-        TreeNode node = TreeNode.buildTree(arr);
+        TreeNode node = TreeNode.createTreeNode(arr);
         Morris.morrisPrint(node);
     }
 

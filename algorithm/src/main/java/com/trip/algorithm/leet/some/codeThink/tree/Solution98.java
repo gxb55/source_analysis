@@ -1,6 +1,6 @@
 package com.trip.algorithm.leet.some.codeThink.tree;
 
-import com.trip.algorithm.leet.some.history.TreeNode;
+import com.trip.algorithm.base.TreeNode;
 
 import java.util.Stack;
 
