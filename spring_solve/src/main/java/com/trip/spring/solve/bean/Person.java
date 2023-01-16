@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Person  {
-    @Autowired
-    private Car car;
     private String name;
     private Integer age;
 

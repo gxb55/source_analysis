@@ -1,6 +1,5 @@
 package com.trip.spring.solve;
 
-import com.trip.spring.solve.bean.Calculate;
 import com.trip.spring.solve.bean.Person;
 import com.trip.spring.solve.bean.resourceeditor.Customer;
 import com.trip.spring.solve.config.AppConfig;
@@ -15,19 +14,19 @@ public class Main {
     public static void main(String[] args) {
         annotationStart();
 
-      //  xmlStart();
+        // xmlStart();
     }
 
     private static void annotationStart() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         Person bean = context.getBean(Person.class);
         System.out.println(bean.getClass());
-        Calculate calculate = context.getBean(Calculate.class);
+       /* Calculate calculate = context.getBean(Calculate.class);
         int add = calculate.add(1, 5);
         System.out.println("calculate.add: " + add);
 
         Object b = context.getBean("personFactoryBean");
-        System.out.println(b);
+        System.out.println(b);*/
     }
 
     private static void xmlStart() {
