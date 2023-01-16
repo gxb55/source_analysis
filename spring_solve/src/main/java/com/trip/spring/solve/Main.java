@@ -1,6 +1,6 @@
 package com.trip.spring.solve;
 
-import com.trip.spring.solve.bean.Person;
+import com.trip.spring.solve.bean.Car;
 import com.trip.spring.solve.bean.resourceeditor.Customer;
 import com.trip.spring.solve.config.AppConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -19,14 +19,8 @@ public class Main {
 
     private static void annotationStart() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        Person bean = context.getBean(Person.class);
-        System.out.println(bean.getClass());
-       /* Calculate calculate = context.getBean(Calculate.class);
-        int add = calculate.add(1, 5);
-        System.out.println("calculate.add: " + add);
-
-        Object b = context.getBean("personFactoryBean");
-        System.out.println(b);*/
+        Car bean = context.getBean(Car.class);
+        System.out.println(bean);
     }
 
     private static void xmlStart() {
