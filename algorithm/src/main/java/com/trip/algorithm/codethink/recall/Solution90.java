@@ -37,7 +37,8 @@ public class Solution90 {
     public static void main(String[] args) {
         Solution90 solution90 = new Solution90();
         //int[] nums = {1, 2, 2,3};
-        int[] nums = {5, 5, 5, 5};
+       // int[] nums = {5, 5, 5, 5};
+        int[] nums = {1,2,3,4,5,6,7,8,9,10,1,1,1,1,1};
         List<List<Integer>> list = solution90.subsetsWithDup(nums);
         list.forEach(x -> {
             System.out.println(x);
