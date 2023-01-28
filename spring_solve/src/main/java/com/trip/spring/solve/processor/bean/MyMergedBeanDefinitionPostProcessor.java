@@ -11,6 +11,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MyMergedBeanDefinitionPostProcessor implements MergedBeanDefinitionPostProcessor {
+    /**
+     * bean定义信息的合并，在属性填充之前
+     * 4
+     * @param beanDefinition the merged bean definition for the bean
+     * @param beanType the actual type of the managed bean instance
+     * @param beanName the name of the bean
+     */
     @Override
     public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
         System.out.println("MyMergedBeanDefinitionPostProcessor.postProcessMergedBeanDefinition");
