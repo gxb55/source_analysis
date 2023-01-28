@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author xbguo
  * @createTime 2023年01月16日 20:14:00
+ * 内部的bean处理器
  */
 @Component
 public class MyMergedBeanDefinitionPostProcessor implements MergedBeanDefinitionPostProcessor {

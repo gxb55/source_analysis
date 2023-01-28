@@ -9,6 +9,7 @@ import java.lang.reflect.Constructor;
 /**
  * @author xbguo
  * @createTime 2023年01月16日 20:15:00
+ * 创建代理对象的时候会用到这个后置处理器
  */
 @Component
 public class MySmartInstantiationAwareBeanPostProcessor implements SmartInstantiationAwareBeanPostProcessor {

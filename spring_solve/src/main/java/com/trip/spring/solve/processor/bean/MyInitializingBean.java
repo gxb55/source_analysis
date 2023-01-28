@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @createTime 2023年01月16日 20:10:00
  * bean的初始化处理器，不带参数
  */
-@Component
+//@Component
 public class MyInitializingBean implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
