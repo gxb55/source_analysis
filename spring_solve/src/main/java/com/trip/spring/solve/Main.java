@@ -1,6 +1,7 @@
 package com.trip.spring.solve;
 
 import com.trip.spring.solve.bean.Car;
+import com.trip.spring.solve.bean.factory.Hello;
 import com.trip.spring.solve.bean.resourceeditor.Customer;
 import com.trip.spring.solve.config.AppConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -19,7 +20,7 @@ public class Main {
 
     private static void annotationStart() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        Car bean = context.getBean(Car.class);
+        Hello bean = context.getBean(Hello.class);
         System.out.println(bean);
     }
 

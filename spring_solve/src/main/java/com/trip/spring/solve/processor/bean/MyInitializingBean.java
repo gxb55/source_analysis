@@ -1,6 +1,7 @@
 package com.trip.spring.solve.processor.bean;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
  * bean的初始化处理器，不带参数
  */
 //@Component
-public class MyInitializingBean implements InitializingBean {
+public class MyInitializingBean implements InitializingBean, SmartInitializingSingleton {
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("MyInitializingBean.afterPropertiesSet");
@@ -18,5 +19,10 @@ public class MyInitializingBean implements InitializingBean {
 
     public MyInitializingBean() {
         System.out.println("MyInitializingBean.init");
+    }
+
+    @Override
+    public void afterSingletonsInstantiated() {
+        System.out.println("MyInitializingBean.afterSingletonsInstantiated,所有的bean创建完成后展示");
     }
 }

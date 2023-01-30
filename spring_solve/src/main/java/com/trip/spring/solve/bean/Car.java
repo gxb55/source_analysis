@@ -3,6 +3,8 @@ package com.trip.spring.solve.bean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 
 @Component
 public class Car implements InitializingBean {
