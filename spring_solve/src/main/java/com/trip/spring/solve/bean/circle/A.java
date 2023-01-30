@@ -21,10 +21,5 @@ public class A {
         System.out.println("A 创建中...");
     }
 
-    @Override
-    public String toString() {
-        return "A{" +
-                "b=" + b +
-                '}';
-    }
+
 }

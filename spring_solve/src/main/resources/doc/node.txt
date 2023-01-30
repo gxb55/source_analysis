@@ -137,6 +137,15 @@ org.springframework.beans.factory.config.ConfigurableListableBeanFactory.registe
 org.springframework.beans.factory.config.SingletonBeanRegistry.registerSingleton
 直接注册到单利池中，不用走getBean的一系列流程
 
-
 singletonsCurrentlyInCreation
 正在创建的beanName
+
+循环引用
+A创建 A进入singletonsCurrentlyInCreation A进入singletonFactories， populateBean 发现需要B
+B创建 B进入singletonsCurrentlyInCreation B进入singletonFactories， populateBean 发现需要A
+getSingleton 把A从A进入singletonFactories 移除加入到earlySingletonObjects二级缓存中，并返回A，然后把A注入到B中去；
+
+B创建完毕，B从singletonFactories移除自己，把自己加入到singletonObjects一级缓存中去；
+A在填充属性的时候发现需要B这个时候B创建完毕，把B填充到自己的属性中去，A创建完毕；
+把A从二级缓存中取出放入到一级缓存中去；
+循环依赖结束

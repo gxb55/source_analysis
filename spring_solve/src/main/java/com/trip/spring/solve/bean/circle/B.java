@@ -19,10 +19,4 @@ public class B {
         this.a = a;
     }
 
-    @Override
-    public String toString() {
-        return "B{" +
-                "a=" + a +
-                '}';
-    }
 }
