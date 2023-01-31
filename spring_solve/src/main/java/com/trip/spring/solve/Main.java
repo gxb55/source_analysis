@@ -22,6 +22,8 @@ public class Main {
         HelloService bean = context.getBean(HelloService.class);
         bean.sayHello("gxb");
         System.out.println(bean);
+
+       // System.out.println(context.getBean(MyAspectJAutoProxyRegistrar.class));
     }
 
     private static void xmlStart() {

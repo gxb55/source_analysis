@@ -1,7 +1,8 @@
-package com.trip.spring.solve.config;
+package com.trip.spring.solve.bean.aop;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Import;
 
 /**
  * @author xbguo
@@ -9,5 +10,9 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  */
 @Configuration
 @EnableAspectJAutoProxy
+@Import(MyAspectJAutoProxyRegistrar.class)
 public class AopOpenConfig {
+    public AopOpenConfig() {
+        System.out.println("AopOpenConfig");
+    }
 }
