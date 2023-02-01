@@ -1,6 +1,7 @@
 package com.trip.spring.solve;
 
 import com.trip.spring.solve.bean.aop.HelloService;
+import com.trip.spring.solve.bean.importsolve.Dog;
 import com.trip.spring.solve.bean.resourceeditor.Customer;
 import com.trip.spring.solve.config.AppConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -22,7 +23,7 @@ public class Main {
         HelloService bean = context.getBean(HelloService.class);
         bean.sayHello("gxb");
         System.out.println(bean);
-
+        System.out.println(context.getBean(Dog.class));
        // System.out.println(context.getBean(MyAspectJAutoProxyRegistrar.class));
     }
 

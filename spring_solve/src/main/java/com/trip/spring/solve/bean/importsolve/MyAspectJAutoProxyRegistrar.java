@@ -1,4 +1,4 @@
-package com.trip.spring.solve.bean.aop;
+package com.trip.spring.solve.bean.importsolve;
 
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;

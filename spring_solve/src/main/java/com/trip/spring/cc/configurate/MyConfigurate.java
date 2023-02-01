@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MyConfigurate {
     @Bean
-    public Persion getPersion(){
-        Persion persion = new Persion();
+    public Person getPersion(){
+        Person persion = new Person();
         persion.setName("zs");
         return persion;
     }

@@ -13,21 +13,4 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy
 @ComponentScan("com.trip")
 public class AppConfig {
-/*
-    @Bean(name = "Person")
-    public Person getPerson(){
-        Person person = new Person();
-        person.setAge(18);
-        person.setName("张三");
-        return person;
-    }*/
-
-/*    @Bean
-    public Calculate calculate(){
-        return new TulingCalculate() ;
-    }
-    @Bean
-    public TulingLogAspect tulingLogAspect(){
-        return new TulingLogAspect();
-    }*/
 }

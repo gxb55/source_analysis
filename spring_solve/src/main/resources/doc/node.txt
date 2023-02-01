@@ -149,3 +149,23 @@ B创建完毕，B从singletonFactories移除自己，把自己加入到singleton
 A在填充属性的时候发现需要B这个时候B创建完毕，把B填充到自己的属性中去，A创建完毕；
 把A从二级缓存中取出放入到一级缓存中去；
 循环依赖结束
+
+@Import注解导入的类可以
+ImportSelector
+ImportBeanDefinitionRegistrar
+
+可以同时导入多个 @Configuration类 、ImportSelector 和 ImportBeanDefinitionRegistrar 的实现，以及导入普通类（4.2版本开始支持）
+@Import的功能与 xml 中的 <import/>标签等效
+在类级别声明或作为元注释
+如果需要导入XML 或其他非bean 定义资源，请使用@ImportResource注解
+
+初始化的时候就会把那个加到里面
+this.includeFilters.add(new AnnotationTypeFilter(Component.class));
+
+
+* BeanDefinition的注册主要依赖beanFactory的invoke这步，这里会解析ComponentScan，把所有的classpath下的类都找到，
+然后通过条件再过滤，过滤的是其实就是看类信息上面的@Component 注解，符合要求则是bean
+
+
+
+AnnotationAwareAspectJAutoProxyCreator
