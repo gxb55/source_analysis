@@ -21,6 +21,7 @@
         <module>study</module>
         <module>spring_solve</module>
         <module>ctrip</module>
+        <module>spring_mvc_solve</module>
     </modules>
 
     <groupId>com.trip</groupId>
