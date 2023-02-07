@@ -20,4 +20,12 @@ public class ChangeEvent extends ApplicationEvent implements Serializable {
         super(source);
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "ChangeEvent{" +
+                "state='" + state + '\'' +
+                ", source=" + source +
+                '}';
+    }
 }

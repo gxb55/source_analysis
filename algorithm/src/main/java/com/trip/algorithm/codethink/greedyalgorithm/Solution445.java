@@ -1,4 +1,4 @@
-package com.trip.algorithm.leet.some.codeThink.greedyalgorithm;
+package com.trip.algorithm.codethink.greedyalgorithm;
 
 import java.util.Arrays;
 

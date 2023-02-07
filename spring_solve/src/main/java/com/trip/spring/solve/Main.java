@@ -4,6 +4,8 @@ import com.trip.spring.solve.bean.aop.HelloService;
 import com.trip.spring.solve.bean.importsolve.Dog;
 import com.trip.spring.solve.bean.resourceeditor.Customer;
 import com.trip.spring.solve.config.AppConfig;
+import com.trip.spring.solve.listener.AppEventPublish;
+import com.trip.spring.solve.listener.ChangeEvent;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -24,6 +26,8 @@ public class Main {
         bean.sayHello("gxb");
         System.out.println(bean);
         System.out.println(context.getBean(Dog.class));
+
+        context.getBean(AppEventPublish.class).publishMsg(new ChangeEvent("change","change"));
        // System.out.println(context.getBean(MyAspectJAutoProxyRegistrar.class));
     }
 

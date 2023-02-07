@@ -1,5 +1,7 @@
 package com.trip.spring.solve.listener;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.trip.spring.solve.bean.circle.A;
 import org.springframework.context.PayloadApplicationEvent;
 import org.springframework.context.event.EventListener;
@@ -17,11 +19,11 @@ public class AppEventListener {
 
     @EventListener(MessageEvent.class)
     public void listenMessage(MessageEvent event){
-        System.out.println("MessageEvent handler");
+        System.out.println("MessageEvent handler"+ event);
     }
     @EventListener(ChangeEvent.class)
     public void listenMessage(ChangeEvent event){
-        System.out.println("ChangeEvent handler");
+        System.out.println("ChangeEvent handler"+ event);
     }
 
     @EventListener(PayloadApplicationEvent.class)
