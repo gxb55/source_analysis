@@ -9,7 +9,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class A {
-
+    public String sayA(String name) {
+        String res = "你好" + name;
+        System.out.println(res);
+        return res + "---" + res.length();
+    }
     private B b;
 
     @Autowired

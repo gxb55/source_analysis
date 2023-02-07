@@ -18,5 +18,9 @@ public class B {
     public void setA(A a) {
         this.a = a;
     }
-
+    public String sayB(String name) {
+        String res = "你好" + name;
+        System.out.println(res);
+        return res + "---" + res.length();
+    }
 }
