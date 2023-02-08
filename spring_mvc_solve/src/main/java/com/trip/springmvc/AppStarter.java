@@ -1,6 +1,6 @@
 package com.trip.springmvc;
 
-import com.trip.springmvc.config.AppConfig;
+import com.trip.springmvc.config.SpringConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -17,7 +17,7 @@ public class AppStarter implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(AppConfig.class);
+        context.register(SpringConfig.class);
 
         DispatcherServlet servlet = new DispatcherServlet(context);
 
