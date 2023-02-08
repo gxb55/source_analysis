@@ -18,9 +18,11 @@ public class AppStarter implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(AppConfig.class);
+
         DispatcherServlet servlet = new DispatcherServlet(context);
+
         ServletRegistration.Dynamic registration = servletContext.addServlet("app", servlet);
         registration.setLoadOnStartup(1);
-        registration.addMapping("/*");
+        registration.addMapping("/app/*");
     }
 }

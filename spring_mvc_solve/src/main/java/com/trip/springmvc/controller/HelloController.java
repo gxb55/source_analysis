@@ -14,4 +14,8 @@ public class HelloController {
     public String sayHello(){
         return "Hello,SpringMVC";
     }
+
+    public HelloController() {
+        System.out.println("HelloController");
+    }
 }
