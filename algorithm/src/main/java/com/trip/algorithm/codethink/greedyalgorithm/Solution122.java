@@ -6,9 +6,9 @@ package com.trip.algorithm.codethink.greedyalgorithm;
  */
 public class Solution122 {
     public static void main(String[] args) {
-     //   int[] arr = {7, 1, 5, 3, 6, 4};
-        int[] arr = {1,2,3,4,5};
-      //  int[] arr = {7,6,4,3,1};
+        //   int[] arr = {7, 1, 5, 3, 6, 4};
+        int[] arr = {1, 2, 3, 4, 5};
+        //  int[] arr = {7,6,4,3,1};
         int i = Solution122.maxProfit(arr);
         System.out.println(i);
     }
@@ -23,11 +23,23 @@ public class Solution122 {
                 dp[0][i] = -val;
                 dp[1][i] = 0;
             } else {
-                dp[0][i] = Math.max(dp[1][i - 1] - val,dp[0][i - 1]);
-                dp[1][i] = Math.max(dp[0][i - 1] + val,dp[1][i - 1]);
+                dp[0][i] = Math.max(dp[1][i - 1] - val, dp[0][i - 1]);
+                dp[1][i] = Math.max(dp[0][i - 1] + val, dp[1][i - 1]);
             }
 
         }
-        return Math.max(dp[0][len-1],dp[1][len-1]);
+        return Math.max(dp[0][len - 1], dp[1][len - 1]);
+    }
+
+    public static int maxProfit1(int[] prices) {
+        int length = prices.length;
+        if (length <= 1) {
+            return 0;
+        }
+        int sum = 0;
+        for (int i = 1; i < prices.length; i++) {
+            sum = sum + Math.max(0, prices[i] - prices[i - 1]);
+        }
+        return sum;
     }
 }

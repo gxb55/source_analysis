@@ -74,11 +74,11 @@ public class Solution1138 {
                     }
                 } else {
                     for (int j = x; j < x1; j++) {
-                        stringBuilder.append("D");
-                        j1++;
                         if((j1+1)<6&&arr[j1+1][t1].equals("")){
                             break;
                         }
+                        stringBuilder.append("D");
+                        j1++;
                     }
                 }
 
@@ -89,11 +89,11 @@ public class Solution1138 {
                     }
                 } else {
                     for ( int t = y; t < y1; t++) {
-                        stringBuilder.append("R");
-                        t1++;
                         if((t1+1)<5&&arr[j1][t1+1].equals("")){
                             break;
                         }
+                        stringBuilder.append("R");
+                        t1++;
                     }
                 }
                 s1=arr[j1][t1];
