@@ -29,12 +29,13 @@ public class SyncAccount {
 
 @ToString
 class Account {
-    private int num;
+    private volatile int num;
     private String name;
 
     public synchronized void setAccount(int num, String name) {
         setName(name);
         try {
+
             Thread.sleep(2000);
         } catch (Exception e) {
 
