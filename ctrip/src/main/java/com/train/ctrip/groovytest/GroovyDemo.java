@@ -6,6 +6,7 @@ package com.train.ctrip.groovytest;
  */
 public class GroovyDemo {
     public static void main(String[] args) throws Exception {
+
         Object o = GroovyFactory.invokeGroovyMethod("D:\\WorkSpace\\workspace\\2023work\\source_analysis\\ctrip\\src\\main\\java\\groovytest\\CouponAlterHandler.groovy");
         System.out.println(o);
     }

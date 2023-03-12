@@ -2,8 +2,9 @@ package com.train.ctrip.groovytest;
 
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
+import org.codehaus.groovy.control.CompilerConfiguration;
+import org.codehaus.groovy.control.customizers.SecureASTCustomizer;
 
-import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.io.BufferedReader;
@@ -18,6 +19,12 @@ public class GroovyFactory {
     private static ScriptEngine engine = new ScriptEngineManager().getEngineByName("groovy");
 
     public static Object invokeGroovyMethod(String path) throws Exception {
+        CompilerConfiguration config = new CompilerConfiguration();
+        config.setTargetDirectory(GroovyFactory.class.getClassLoader().getResource("./").getPath());
+
+        SecureASTCustomizer secure = new SecureASTCustomizer();
+        secure.addExpressionCheckers(new NoSupportClassTest());
+        config.addCompilationCustomizers(secure);
         GroovyClassLoader groovyClassLoader = new GroovyClassLoader();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
         StringBuilder stringBuilder = new StringBuilder();
