@@ -21,4 +21,9 @@ public class NoSupportClassTest implements SecureASTCustomizer.ExpressionChecker
         }
         return true;
     }
+
+    public static void main(String[] args) {
+        String path = NoSupportClassTest.class.getResource("/").getPath();
+        System.out.println(path);
+    }
 }
