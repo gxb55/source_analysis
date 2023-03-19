@@ -23,6 +23,7 @@ public class Solution1705 {
     public static void main(String[] args) {
        // String[] arr = {"A", "1", "B", "C", "D", "2", "3", "4", "E", "5", "F", "G", "6", "7", "H", "I", "J", "K", "L", "M"};
       //  String[] arr = {"A", "A"};
+       // String[] arr = {"A","1","B","C","D","2","3","4","E","5","F","G","6","7","H","I","J","K","L","M"};
         String[] arr = {"42","10","O","t","y","p","g","B","96","H","5","v","P","52","25","96"
                 ,"b","L","Y","z","d","52","3","v","71","J","A","0","v","51",
                 "E","k","H","96","21","W","59","I","V","s","59","w","X","33","29","H","32",
@@ -43,7 +44,7 @@ public class Solution1705 {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < array.length; i++) {
             String s = array[i];
-            if (s.compareTo("A") >= 0 && s.compareTo("Z") <= 0) {
+            if ((s.compareTo("A") >= 0 && s.compareTo("Z") <= 0)||(s.compareTo("a") >= 0 && s.compareTo("z") <= 0)) {
                 cur++;
             } else {
                 cur--;
@@ -53,8 +54,8 @@ public class Solution1705 {
                 right = i;
             }
             Integer integer = map.get(cur);
-            if (integer != null && (i - integer + 1) > (right - left + 1)) {
-                left = integer;
+            if (integer != null && (i - integer) > (right - left + 1)) {
+                left = integer+1;
                 right = i;
             }
             if (!map.containsKey(cur)) {
