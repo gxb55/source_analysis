@@ -35,7 +35,6 @@ public class Solution1705 {
             System.out.print(s+" ");
         }
     }
-
     public static String[] findLongestSubarray(String[] array) {
         int left = -1;
         int right = -1;
@@ -69,6 +68,8 @@ public class Solution1705 {
         for (int i = left; i <= right; i++) {
             res[index++] = array[i];
         }
+        String str="{\"authIconZX\":\"https://images3.c-ctrip.com/ztrip/train_xie/2021-04/icon_fast_1.png\",\"authTitle\":\"免登录购票\",\"authDesc\":\"线下专人为您跑腿购票\",\"authButtonName\":\"帮我购票\",\"priceDesc\":\"%s/张\",\"productTips\":[\"该车票类型为人工客票，<font color='#333333'>9元(含5元铁路客票出票费和酒店75折优惠券)</font>\",\"该车票类型<font color='#333333'>不支持线上退票改签</font>，需到线下车站窗口办理\"],\"toastType\":\"1\"}";
+
         return res;
     }
 }
