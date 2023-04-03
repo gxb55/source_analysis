@@ -1,6 +1,7 @@
 package com.trip.algorithm.leet.some.leet2304;
 
 import java.util.Arrays;
+import java.util.OptionalInt;
 
 /**
  * @author xbguo
@@ -37,29 +38,30 @@ import java.util.Arrays;
  */
 public class Solution1103 {
     public static void main(String[] args) {
-        //int[] arr = {3, 2, 1};
-      //  int[] arr = {1,1,5};
-       // int[] arr = {1,9,4,6,7};
-        int[] arr = {3,1,1,3};
+        int[] arr = {3, 2, 1};
+        //  int[] arr = {1,1,5};
+        // int[] arr = {1,9,4,6,7};
+     //   int[] arr = {3, 1, 1, 3};
         int[] ints = Solution1103.prevPermOpt1(arr);
         System.out.println(Arrays.toString(ints));
     }
 
     public static int[] prevPermOpt1(int[] arr) {
-        int max = arr[arr.length - 1];
-        int index = arr.length - 1;
+        a:
         for (int i = arr.length - 2; i >= 0; i--) {
             if (arr[i] > arr[i + 1]) {
-                if (max < arr[i]) {
-                    int t = arr[i];
-                    arr[i] = arr[index];
-                    arr[index] = t;
-                    break;
+                int curVal = arr[i];
+                OptionalInt first = Arrays.stream(arr).skip(i).filter(x -> x < curVal).max();
+                if (first.isPresent()) {
+                    for (int j = i; j < arr.length; j++) {
+                        if (arr[j] == first.getAsInt()) {
+                            int t = arr[i];
+                            arr[i] = arr[j];
+                            arr[j] = t;
+                            break a;
+                        }
+                    }
                 }
-            }
-            if(arr[i]>max){
-                index=i;
-                max=arr[i];
             }
         }
         return arr;
