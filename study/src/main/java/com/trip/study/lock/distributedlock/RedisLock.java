@@ -17,6 +17,9 @@ public class RedisLock {
         RedissonClient client = redisLock.getLock();
         RLock lock = client.getLock("lock");
 
+        lock.tryLock(1,TimeUnit.MILLISECONDS);
+        lock.unlock();
+
         new Thread(()->{
             lock.lock();
             try {
