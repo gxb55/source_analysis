@@ -1,7 +1,9 @@
 package com.trip.algorithm.leet.some.leet2305;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xbguo
@@ -39,6 +41,12 @@ import java.util.List;
  * 1 <= croakOfFrogs.length <= 105
  * 字符串中的字符只有 'c', 'r', 'o', 'a' 或者 'k'
  * 通过次数15,394提交次数33,179
+ *
+ *
+ * 终极模拟，每次哇哇发出第一声叫当前蛙数+1；
+ * 蛙发出最后一次叫声后，蛙数-1；
+ *
+ * 中间每次遇到字母都让蛙的数量后移
  */
 public class Solution1419 {
     public static void main(String[] args) {
@@ -48,6 +56,7 @@ public class Solution1419 {
         croakOfFrogs = "croakcroakccrcroakorakoakcroakcroak";
         croakOfFrogs = "crocakcroraoakk";
         croakOfFrogs = "ccccccccccrrccccccrcccccccccccrcccccccccrcccccccccccrcccccrcccrrcccccccccccccrocrrcccccccccrccrocccccrccccrrcccccccrrrcrrcrccrcoccroccrccccccccorocrocccrrrrcrccrcrcrcrccrcroccccrccccroorcacrkcccrrroacccrrrraocccrrcrrccorooccrocacckcrcrrrrrrkrrccrcoacrcorcrooccacorcrccccoocroacroraoaarcoorrcrcccccocrrcoccarrorccccrcraoocrrrcoaoroccooccororrrccrcrocrrcorooocorarccoccocrrrocaccrooaaarrcrarooaarrarrororrcrcckracaccorarorocacrrarorrraoacrcokcarcoccoorcrrkaocorcrcrcrooorrcrroorkkaaarkraroraraarooccrkcrcraocooaoocraoorrrccoaraocoorrcokrararrkaakaooroorcororcaorckrrooooakcarokokcoarcccroaakkrrororacrkraooacrkaraoacaraorrorrakaokrokraccaockrookrokoororoooorroaoaokccraoraraokakrookkroakkaookkooraaocakrkokoraoarrakakkakaroaaocakkarkoocokokkrcorkkoorrkraoorkokkarkakokkkracocoaaaaakaraaooraokarrakkorokkoakokakakkcracarcaoaaoaoorcaakkraooaoakkrrroaoaoaarkkarkarkrooaookkroaaarkooakarakkooaokkoorkroaaaokoarkorraoraorcokokaakkaakrkaaokaaaroarkokokkokkkoakaaookkcakkrakooaooroaaaaooaooorkakrkkakkkkaokkooaakorkaroaorkkokaakaaaaaocrrkakrooaaroroakrakrkrakaoaaakokkaaoakrkkoakocaookkakooorkakoaaaaakkokakkorakaaaaoaarkokorkakokakckckookkraooaakokrrakkrkookkaaoakaaaokkaokkaaoakarkakaakkakorkaakkakkkakaaoaakkkaoaokkkakkkoaroookakaokaakkkkkkakoaooakcokkkrrokkkkaoakckakokkocaokaakakaaakakaakakkkkrakoaokkaakkkkkokkkkkkkkrkakkokkroaakkakaoakkoakkkkkkakakakkkaakkkkakkkrkoak";
+        croakOfFrogs = "cccccccrrooaakk";
         int i = minNumberOfFrogs(croakOfFrogs);
         System.out.println(i);
     }
@@ -57,55 +66,39 @@ public class Solution1419 {
         if (length % 5 != 0) {
             return -1;
         }
-        String str = "croak";
-        while (croakOfFrogs.startsWith(str)) {
-            croakOfFrogs = croakOfFrogs.substring(5);
-        }
-        while (croakOfFrogs.endsWith(str)) {
-            croakOfFrogs = croakOfFrogs.substring(0, croakOfFrogs.length() - 5);
-        }
-        if (croakOfFrogs.length() == 0) {
-            return 1;
-        }
-        int res = croakOfFrogs.length() / 5;
-        String s = "";
-        for (int i = 0; i < croakOfFrogs.length(); i++) {
-            s = s + "X";
-        }
-        List<int[]> list = new ArrayList<>();
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('c', 0);
+        map.put('r', 1);
+        map.put('o', 2);
+        map.put('a', 3);
+        map.put('k', 4);
+        int[] dp = new int[5];
+        int res = 0;
         int count = 0;
-        while (!croakOfFrogs.equals(s)) {
-            StringBuilder stringBuilder = new StringBuilder();
-            int index = 0;
-            int first = -1;
-            int end = -1;
-            for (int i = 0; i < croakOfFrogs.length(); i++) {
-                if (index < str.length() && croakOfFrogs.charAt(i) == str.charAt(index)) {
-                    if (index == 0) {
-                        first = i;
-                    } else if (index == 4) {
-                        end = i;
-                    }
-                    index++;
-                    stringBuilder.append("X");
+        for (int i = 0; i < croakOfFrogs.length(); i++) {
+            char c = croakOfFrogs.charAt(i);
+            Integer integer = map.get(c);
+            if (integer == 0) {
+                dp[integer]++;
+                // 蛙蛙有多少个
+                count++;
+                res = Math.max(res, count);
+            } else {
+                // 不合法的情况
+                if (dp[integer - 1] == 0) {
+                    return -1;
+                }
+                dp[integer - 1]--;
+                if (integer == 4) {
+                    // 蛙蛙不叫了，这个蛙被用完了，下次可以循环去叫
+                    count--;
                 } else {
-                    stringBuilder.append(croakOfFrogs.charAt(i));
+                    dp[integer]++;
                 }
             }
-            if (index != str.length()) {
-                return -1;
-            }
-            int finalFirst = first;
-            boolean b = list.stream().anyMatch(x -> {
-                int y1 = x[1];
-                return finalFirst > y1;
-            });
-            if (!b) {
-                count++;
-            }
-            list.add(new int[]{first, end});
-            croakOfFrogs = stringBuilder.toString();
         }
-        return count;
+
+        return count!=0?-1:res;
     }
+
 }
