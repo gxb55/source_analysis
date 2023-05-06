@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //@EnableTransactionManagement
 public class Application {
     public static void main(String[] args) {
-
+        System.out.println(Thread.currentThread().getName());
         SpringApplication.run(Application.class, args);
     }
 
