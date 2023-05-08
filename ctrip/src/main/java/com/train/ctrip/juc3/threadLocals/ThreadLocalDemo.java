@@ -14,10 +14,13 @@ import java.util.concurrent.Executors;
  */
 public class ThreadLocalDemo {
     static final TransmittableThreadLocal<Map<String, String>> transmittableThreadLocal = new TransmittableThreadLocal<>();
+    static final TransmittableThreadLocal<Map<String, String>> transmittableThreadLocal2 = new TransmittableThreadLocal<>();
 
     static final ThreadLocal<Map<String, String>> threadLocal = ThreadLocal.withInitial(HashMap::new);
 
     public static void main(String[] args) {
+        Thread thread = new Thread();
+
         test();
     }
 
@@ -33,17 +36,20 @@ public class ThreadLocalDemo {
         System.out.println(val);
     }
 
-    static ExecutorService executorService = TtlExecutors.getTtlExecutorService(Executors.newFixedThreadPool(2));
+    static ExecutorService executorService = TtlExecutors.getTtlExecutorService(Executors.newFixedThreadPool(1));
 
     private static void test() {
         transmittableThreadLocal.set(new HashMap<>());
         transmittableThreadLocal.get().put("CC", "CC");
 
         System.out.println(transmittableThreadLocal.get().get("CC"));
+        for (int i = 0; i < 10; i++) {
+            transmittableThreadLocal.get().put("CC", "CC" + i);
+            executorService.execute(() -> {
+                System.out.println(transmittableThreadLocal.get().get("CC"));
+            });
+        }
 
-        executorService.execute(()->{
-            System.out.println(transmittableThreadLocal.get().get("CC"));
-        });
 
         System.out.println(transmittableThreadLocal.get().get("CC"));
 
