@@ -1,6 +1,7 @@
 package com.trip.study.lock.distributedlock;
 
 import org.redisson.Redisson;
+import org.redisson.api.RBloomFilter;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -16,7 +17,8 @@ public class RedisLock {
         RedisLock redisLock = new RedisLock();
         RedissonClient client = redisLock.getLock();
         RLock lock = client.getLock("lock");
-
+        RBloomFilter<String> bloomFilter
+                = client.getBloomFilter("sss");
         lock.tryLock(1,TimeUnit.MILLISECONDS);
         lock.unlock();
 

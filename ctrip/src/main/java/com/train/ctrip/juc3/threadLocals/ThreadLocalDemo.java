@@ -14,14 +14,39 @@ import java.util.concurrent.Executors;
  */
 public class ThreadLocalDemo {
     static final TransmittableThreadLocal<Map<String, String>> transmittableThreadLocal = new TransmittableThreadLocal<>();
-    static final TransmittableThreadLocal<Map<String, String>> transmittableThreadLocal2 = new TransmittableThreadLocal<>();
 
     static final ThreadLocal<Map<String, String>> threadLocal = ThreadLocal.withInitial(HashMap::new);
 
     public static void main(String[] args) {
         Thread thread = new Thread();
 
-        test();
+        executorService.execute(() -> {
+            System.out.println(1);
+        });
+        executorService.execute(() -> {
+            System.out.println(2);
+        });
+        TransmittableThreadLocal<Map<String, String>> transmittableThreadLocal1 = new TransmittableThreadLocal(){
+            @Override
+            protected Object childValue(Object parentValue) {
+                return super.childValue(parentValue);
+            }
+        };
+        System.out.println(Thread.currentThread());
+        transmittableThreadLocal1.set(new HashMap<>());
+        transmittableThreadLocal1.get().put("1", "1");
+        executorService.execute(() -> {
+            System.out.println(transmittableThreadLocal1.get().get("CC"));
+        });
+
+
+        TransmittableThreadLocal<Map<String, String>> transmittableThreadLocal2 = new TransmittableThreadLocal<>();
+        transmittableThreadLocal2.set(new HashMap<>());
+        transmittableThreadLocal2.get().put("1", "2");
+        executorService.execute(() -> {
+            System.out.println(transmittableThreadLocal2.get().get("1"));
+        });
+        executorService.shutdown();
     }
 
     public void sayHello(String val) {
@@ -43,13 +68,10 @@ public class ThreadLocalDemo {
         transmittableThreadLocal.get().put("CC", "CC");
 
         System.out.println(transmittableThreadLocal.get().get("CC"));
-        for (int i = 0; i < 10; i++) {
-            transmittableThreadLocal.get().put("CC", "CC" + i);
-            executorService.execute(() -> {
-                System.out.println(transmittableThreadLocal.get().get("CC"));
-            });
-        }
 
+        executorService.execute(() -> {
+            System.out.println(transmittableThreadLocal.get().get("CC"));
+        });
 
         System.out.println(transmittableThreadLocal.get().get("CC"));
 
