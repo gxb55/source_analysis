@@ -26,8 +26,10 @@ public class MainServiceImpl implements MainService {
 
     @Override
     @Clog
+    @Transactional
     public BaseResult<TblHotLine> queryHotLineById(Integer id) {
         TblHotLine tblHotLine = tblHotLineDao.findById(id);
+        tblHotLine = tblHotLineDao.findById(id);
         return ResultUtil.buildResult(ResultEnum.SUCCESS, tblHotLine);
     }
 
