@@ -7,26 +7,27 @@ import java.util.Set;
  * @author xbguo
  * @createTime 2023年05月10日 21:36:00
  */
+
 public class Solution1015 {
     public static void main(String[] args) {
-        int k = 23;
+        int k = 3;
+        // k = 23;
         int i = smallestRepunitDivByK(k);
         System.out.println(i);
     }
 
     public static int smallestRepunitDivByK(int k) {
-        int cur = 1;
-        int t = cur % k;
-        int len = 1;
         Set<Integer> set = new HashSet<>();
-        while (set.add(t)) {
-            if (t == 0) {
-                return len;
+        int cnt = 1, x = 1 % k;
+        while (x > 0) {
+            System.out.println(10 * x + 1);
+            x = (10 * x + 1) % k;
+            if (set.contains(x)) {
+                return -1;
             }
-            //  cur=cur*10+1;
-            t = (t * 10 + 1) % k;
-            len++;
+            set.add(x);
+            cnt ++;
         }
-        return -1;
+        return cnt;
     }
 }

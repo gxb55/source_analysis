@@ -10,14 +10,15 @@ public class Demo_Semaphore {
     static Semaphore semaphore = new Semaphore(10);
 
     public static void main(String[] args) throws InterruptedException {
-        for (int i = 0; i < 100; i++) {
+       /* for (int i = 0; i < 100; i++) {
             new Thread(() -> {
                 login();
                 //loginOut();
             }, "e" + i).start();
-        }
+        }*/
 
-
+        String s="313_500123";
+        System.out.println(Long.valueOf(s.split("_")[0]));
 
 
     }
