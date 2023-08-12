@@ -1,5 +1,7 @@
 package com.trip.algorithm.leet.some.Leet2308;
 
+import java.text.MessageFormat;
+
 /**
  * @author xbguo
  * @date 2023/8/3 16:55
@@ -9,11 +11,15 @@ public class Solution822 {
        /* int[] fronts = {1, 2, 4, 4, 7};
         int[] backs = {1, 3, 4, 1, 3}; */
 
-        int[] fronts = {1};
+       /* int[] fronts = {1};
         int[] backs = {1};
         Solution822 solution822 = new Solution822();
         int flipgame = solution822.flipgame(fronts, backs);
-        System.out.println(flipgame);
+        System.out.println(flipgame);*/
+
+        String formatKey="<font color=\"#222222\"><b>新客立减30元</b></font>";
+        String tag = MessageFormat.format(formatKey, "tag");
+        System.out.println(tag);
     }
 
     public int flipgame(int[] fronts, int[] backs) {
