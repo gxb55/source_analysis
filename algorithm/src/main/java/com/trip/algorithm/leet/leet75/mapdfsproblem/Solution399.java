@@ -1,12 +1,6 @@
 package com.trip.algorithm.leet.leet75.mapdfsproblem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -15,8 +9,8 @@ import java.util.stream.Collectors;
  */
 public class Solution399 {
     public static void main(String[] args) {
-        Solution399 solution399 = new Solution399();
-        /*String[][] equations = {{"a", "b"}, {"b", "c"}};
+       Solution399 solution399 = new Solution399();
+        /* String[][] equations = {{"a", "b"}, {"b", "c"}};
         double[] values = {2.0, 3.0};
         String[][] queries = {{"a", "c"}, {"b", "a"}, {"a", "e"}, {"a", "a"}, {"x", "x"}};*/
 
@@ -30,7 +24,7 @@ public class Solution399 {
         double[] values = {3.0, 4.0, 5.0, 6.0};
         String[][] queries = {{"x1", "x5"}, {"x5", "x2"}, {"x2", "x4"}, {"x2", "x2"}, {"x2", "x9"}, {"x9", "x9"}};
 
-        double[] doubles = solution399.calcEquation(getRes(equations), values, getRes(queries));
+        double[] doubles = solution399.calcEquation1(getRes(equations), values, getRes(queries));
         System.out.println(Arrays.toString(doubles));
     }
 
@@ -40,6 +34,77 @@ public class Solution399 {
             list.add(Arrays.stream(arr).collect(Collectors.toList()));
         }
         return list;
+    }
+
+    public double[] calcEquation1(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        Map<String, List<Node399>> map = new HashMap<>();
+        for (int i = 0; i < equations.size(); i++) {
+            List<String> list = equations.get(i);
+            String x = list.get(0);
+            String y = list.get(1);
+            List<Node399> orDefault = map.getOrDefault(x, new ArrayList<>());
+            orDefault.add(new Node399(x, y, 1.0, values[i]));
+            map.put(x, orDefault);
+
+            List<Node399> list1 = map.getOrDefault(y, new ArrayList<>());
+            list1.add(new Node399(y, x, values[i], 1.0));
+            map.put(y, list1);
+        }
+        Map<String, List<Node399>> map1 = new HashMap<>();
+        for (Map.Entry<String, List<Node399>> entry : map.entrySet()) {
+            String key = entry.getKey();
+            List<Node399> value = entry.getValue();
+            for (Node399 v : value) {
+                processNode(key, v, map1, 1.0, 1.0, map);
+            }
+        }
+        List<Double> list = new ArrayList<>();
+        for (int i = 0; i < queries.size(); i++) {
+            List<String> list1 = queries.get(i);
+            String x = list1.get(0);
+            String y = list1.get(1);
+            if (x.equals(y) && map.containsKey(x)) {
+                list.add(1.0);
+            } else if (map.containsKey(x) && map.containsKey(y)) {
+                List<Node399> node399s = map1.get(x);
+                Node399 node399 = node399s.stream().filter(z -> z.y.equals(y)).findFirst().orElse(null);
+                if (node399 != null) {
+                    list.add(node399.yVal / node399.xVal);
+                    continue;
+                }
+                node399s = map1.get(y);
+                node399 = node399s.stream().filter(z -> z.x.equals(x)).findFirst().orElse(null);
+                if (node399 != null) {
+                    list.add(node399.xVal / node399.yVal);
+                    continue;
+                }
+                list.add(-1.0);
+            } else {
+                list.add(-1.0);
+            }
+        }
+
+        double[] res = new double[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            res[i] = list.get(i);
+        }
+        return res;
+    }
+
+    private void processNode(String key, Node399 node, Map<String, List<Node399>> map1, double v1, double v2, Map<String, List<Node399>> map) {
+        List<Node399> orDefault = map1.getOrDefault(key, new ArrayList<>());
+        if (orDefault.stream().anyMatch(x -> x.y.equals(node.y))) {
+            return;
+        }
+        orDefault.add(new Node399(key, node.y, node.xVal * v1, node.yVal * v2));
+        map1.put(key, orDefault);
+        List<Node399> node399s = map.get(node.y);
+        if (node399s == null || node399s.size() == 0) {
+            return;
+        }
+        for (Node399 cur : node399s) {
+            processNode(key, cur, map1, node.xVal * v1, node.yVal * v2, map);
+        }
     }
 
     public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
@@ -67,9 +132,9 @@ public class Solution399 {
             } else if (map.containsKey(x) && map.containsKey(y)) {
                 set.clear();
                 double process = process(map, x, y, set);
-                if(process!=0){
+                if (process != 0) {
                     list.add(process);
-                }else{
+                } else {
                     list.add(-1.0);
                 }
             } else {

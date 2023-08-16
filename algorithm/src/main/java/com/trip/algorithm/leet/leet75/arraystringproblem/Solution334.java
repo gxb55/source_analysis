@@ -13,11 +13,35 @@ public class Solution334 {
         //int[] nums = {1, 2, 3, 4, 5};
       //  int[] nums = {5,4,3,2,1};
       //  int[] nums = {2,1,5,0,4,6};
-        int[] nums = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-                1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,7};
-        boolean b = increasingTriplet(nums);
+      //  int[] nums = {1,1,1,3,7};
+        int[] nums = {4,5,2147483647,1,2};
+        boolean b = increasingTriplet1(nums);
         System.out.println(b);
 
+    }
+
+    public static boolean increasingTriplet1(int[] nums) {
+        if(nums.length<3){
+            return false;
+        }
+        int[] left = new int[nums.length];
+        int[] right = new int[nums.length];
+        left[0]=nums[0];
+        right[right.length-1]=nums[right.length-1];
+        int len=nums.length;
+        for (int i = 1; i <len; i++) {
+            left[i]=Math.min(left[i-1],nums[i]);
+        }
+        for (int i = len-2; i >-1; i--) {
+            right[i]=Math.max(right[i+1],nums[i]);
+        }
+        for (int i = 1; i < len-1; i++) {
+            int num = nums[i];
+            if(left[i-1]<num&&num<right[i+1]){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean increasingTriplet(int[] nums) {
