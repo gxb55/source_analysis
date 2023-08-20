@@ -1,6 +1,7 @@
 package com.trip.algorithm.leet.leet75.mapdfsproblem;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author xbguo
@@ -8,74 +9,58 @@ import java.util.*;
  */
 public class Solution1466 {
     public static void main(String[] args) {
+        Solution1466 solution1466 = new Solution1466();
+       /* int n = 6;
+        int[][] connections = {{0, 1}, {1, 3}, {2, 3}, {4, 0}, {4, 5}}; */
 
+        int n = 5;
+        int[][] connections = {{1,0},{1,2},{3,2},{3,4}};
+        int i = solution1466.minReorder(n, connections);
+        System.out.println(i);
     }
+
 
     public int minReorder(int n, int[][] connections) {
-        List<Integer> list = new ArrayList<>();
+        List<List<Integer>> list = buildGraph(n, connections);
         boolean[] vis = new boolean[n];
-        Arrays.fill(vis, false);
-        vis[0] = true;
-        for (int i = 0; i < n; i++) {
-            list.add(i);
-        }
-        Map<Integer, Node1466> map = new HashMap<>();
-        for (int[] arr : connections) {
-            int begin = arr[0];
-            int end = arr[1];
-            Node1466 beginNode = map.getOrDefault(begin, new Node1466(begin));
-            Node1466 endNode = map.getOrDefault(begin, new Node1466(end));
-            Line1466 line1 = new Line1466(beginNode, endNode);
-            // 当前节点指向外面的
-            beginNode.outMap.put(end, line1);
-            // 指向当前节点的
-            endNode.intMap.put(begin, line1);
-        }
-        int cur = 0;
-        // 将所有指向的节点移除
-        process(map, vis, list, cur);
-        List<Integer> curList =new ArrayList<>();
-        curList.add(0);
-        while (!list.isEmpty()){
-            List<Integer> tempList =new ArrayList<>();
-            for (Integer v:curList){
-                Node1466 node1466 = map.get(v);
-                Map<Integer, Line1466> outMap = map.get(v).outMap;
-                Set<Integer> set = outMap.keySet();
+        process(list, vis, 0);
+        return count;
+    }
 
+    private void process(List<List<Integer>> list, boolean[] vis, int index) {
+        vis[index] = true;
+        List<Integer> list1 = list.get(index);
+        for (int i = 0; i < list1.size(); i++) {
+            Integer cur = list1.get(i);
+            if (vis[Math.abs(cur)]) {
+                continue;
             }
+            if (cur < 0) {
+                count++;
+            }
+            process(list, vis, Math.abs(cur));
         }
-        return 1;
     }
 
-    private void process(Map<Integer, Node1466> map, boolean[] vis, List<Integer> list, int cur) {
-        Node1466 node1466 = map.get(cur);
-        node1466.intMap.values().stream().forEach(x -> {
-            vis[x.begin.val] = true;
-            list.remove(Integer.valueOf(x.begin.val));
-            process(map,vis,list,x.begin.val);
-        });
+    private List<List<Integer>> buildGraph(int n, int[][] connections) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (int[] arr : connections) {
+            int from = arr[0];
+            int to = arr[1];
+            // 指向我的是正的，说明可以到我
+
+            graph.get(to).add(from);
+            graph.get(from).add(-to);
+
+        }
+        return graph;
+
     }
+
+    int count = 0;
+
 }
 
-class Node1466 {
-    public int val;
-    public Map<Integer, Line1466> outMap;
-    public Map<Integer, Line1466> intMap;
-
-    public Node1466(int val) {
-        this.val = val;
-        this.outMap = new HashMap<>();
-        this.intMap = new HashMap<>();
-    }
-}
-
-class Line1466 {
-    public Node1466 begin;
-    public Node1466 end;
-
-    public Line1466(Node1466 begin, Node1466 end) {
-        this.begin = begin;
-        this.end = end;
-    }
-}
