@@ -1,0 +1,98 @@
+package com.trip.algorithm.leet.leet75.arraystringproblem;
+
+/**
+ * @author xbguo
+ * @createTime 2023年08月22日 22:18:00
+ */
+public class Solution1071 {
+    public static void main(String[] args) {
+        Solution1071 solution1071 = new Solution1071();
+        //String str1 = "ABCABC", str2 = "ABC";
+        // String str1 = "ABABAB", str2 = "ABAB";
+      //  String str1 = "LEET", str2 = "CODE";
+       // String str1 = "ABABABAB", str2 = "ABAB";
+        String str1 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+        String str2 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+        String s = solution1071.gcdOfStrings(str1, str2);
+        System.out.println(s);
+    }
+
+    public String gcdOfStrings(String str1, String str2) {
+        if(str2.equals(str1)){
+            return str2;
+        }
+        //短串
+        String s1 = str1.length() >= str2.length() ? str2 : str1;
+        String s2 = str1.length() >= str2.length() ? str1 : str2;
+        String res1 = getRes(s1);
+        if (res1 == null) {
+            return "";
+        }
+        String res2 = getRes(s2);
+        if (res2 == null) {
+            return "";
+        }
+        if (res1.equals(res2)) {
+            String pre = res1;
+            String cur = pre + pre;
+            while (true) {
+                if (check(cur, str1, str2)) {
+                    pre = cur;
+                    cur = cur + res2;
+                } else {
+                    return pre;
+                }
+            }
+        }
+        return "";
+    }
+
+    private boolean check(String cur, String str1, String str2) {
+        if(cur.length()>str1.length()||cur.length()>str2.length()){
+            return false;
+        }
+        int i = str1.length() % cur.length();
+        int j = str2.length() % cur.length();
+        if (i != 0 || j != 0) {
+            return false;
+        }
+        i = str1.length() / cur.length();
+        j = str2.length() / cur.length();
+        StringBuilder stringBuilder = new StringBuilder();
+        while (i > 0) {
+            stringBuilder.append(cur);
+            i--;
+        }
+        if (!stringBuilder.toString().equals(str1)) {
+            return false;
+        }
+        stringBuilder = new StringBuilder();
+        while (j > 0) {
+            stringBuilder.append(cur);
+            j--;
+        }
+        if (!stringBuilder.toString().equals(str2)) {
+            return false;
+        }
+        return true;
+    }
+
+    public String getRes(String s1) {
+        StringBuilder stringBuilder = new StringBuilder();
+        char[] chars = s1.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char aChar = chars[i];
+            if (stringBuilder.length() > 0 && chars.length % stringBuilder.length() == 0) {
+                StringBuilder stb = new StringBuilder();
+                while (stb.length() != chars.length) {
+                    stb.append(stringBuilder);
+                }
+                if (stb.toString().equals(s1)) {
+                    return stringBuilder.toString();
+                }
+            }
+            stringBuilder.append(aChar);
+        }
+        return s1;
+    }
+}
