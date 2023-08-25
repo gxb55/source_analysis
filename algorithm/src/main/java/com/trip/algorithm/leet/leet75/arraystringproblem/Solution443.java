@@ -24,14 +24,23 @@ public class Solution443 {
                 last = aChar;
                 count = 1;
             } else if (last != aChar) {
-                stringBuilder.append(last).append(count);
+                stringBuilder.append(last);
+                if(count>1){
+                    stringBuilder.append(count);
+                }
                 last = aChar;
                 count = 1;
             }else if(last==aChar){
                 count++;
             }
         }
-        stringBuilder.append(last).append(count);
+        stringBuilder.append(last);
+        if(count>1){
+            stringBuilder.append(count);
+        }
+        for (int i = 0; i < stringBuilder.length()&&i<chars.length; i++) {
+            chars[i]=stringBuilder.charAt(i);
+        }
         return stringBuilder.length();
     }
 }

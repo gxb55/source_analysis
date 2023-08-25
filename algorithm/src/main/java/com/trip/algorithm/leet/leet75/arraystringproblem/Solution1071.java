@@ -2,7 +2,7 @@ package com.trip.algorithm.leet.leet75.arraystringproblem;
 
 /**
  * @author xbguo
- * @createTime 2023年08月22日 22:18:00
+ * @date 2023/8/25 14:54
  */
 public class Solution1071 {
     public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class Solution1071 {
     }
 
     public String gcdOfStrings(String str1, String str2) {
-        if(str2.equals(str1)){
+        if (str2.equals(str1)) {
             return str2;
         }
         //短串
@@ -31,6 +31,22 @@ public class Solution1071 {
         String res2 = getRes(s2);
         if (res2 == null) {
             return "";
+        }
+        if (res1.equals(res2) && res1.length() == 1) {
+            int right = s1.length();
+            int count = 1;
+            for (int i = right; i > 0; i--) {
+                if (s1.length() % i == 0 && s2.length() % i == 0) {
+                    count = i;
+                    break;
+                }
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            while (count > 0) {
+                stringBuilder.append(res1);
+                count--;
+            }
+            return stringBuilder.toString();
         }
         if (res1.equals(res2)) {
             String pre = res1;
@@ -48,7 +64,7 @@ public class Solution1071 {
     }
 
     private boolean check(String cur, String str1, String str2) {
-        if(cur.length()>str1.length()||cur.length()>str2.length()){
+        if (cur.length() > str1.length() || cur.length() > str2.length()) {
             return false;
         }
         int i = str1.length() % cur.length();
