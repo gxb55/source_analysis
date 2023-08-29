@@ -21,7 +21,7 @@ public class Solution437 {
       /*  Integer[] root = {5,4,8,11,null,13,4,7,2,null,null,5,1};
         int targetSum = 22;*/
 
-        Integer[] root = {1,null,2,null,3,null,4,null,5};
+        Integer[] root = {1, null, 2, null, 4, null, 3, null, 5};
         int targetSum = 3;
         TreeNode treeNode = TreeNode.buildTree(root);
         TreeNode.print(treeNode);
@@ -32,26 +32,30 @@ public class Solution437 {
 
     public int pathSum(TreeNode root, int targetSum) {
         res = targetSum;
-        process(root, 0);
+        process(root);
         return count;
     }
 
     int count = 0;
     int res = 0;
 
-    private void process(TreeNode root, int cur) {
+    private void process(TreeNode root) {
         if (root == null) {
             return;
         }
-        if (cur+root.val == res) {
-            count++;
-        }
-        process(root.left, cur + root.val);
-        process(root.left, 0);
-        process(root.right, cur + root.val);
-        process(root.right, 0);
-
+        doProcess(root, 0);
+        process(root.left);
+        process(root.right);
     }
 
-
+    private void doProcess(TreeNode root, long val) {
+        if (root == null) {
+            return;
+        }
+        if ((val + root.val) == res) {
+            count++;
+        }
+        doProcess(root.left, val + root.val);
+        doProcess(root.right, val + root.val);
+    }
 }
