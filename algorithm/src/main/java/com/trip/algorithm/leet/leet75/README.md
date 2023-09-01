@@ -68,3 +68,6 @@
 
 # 链表问题 （Linked list problem）
 1. 傀儡节点非常重要
+
+# 二分查找 （Binary lookup problem）
+1. 左闭右闭，顺序才能二分
