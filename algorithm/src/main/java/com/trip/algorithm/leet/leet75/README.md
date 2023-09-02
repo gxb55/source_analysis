@@ -67,3 +67,9 @@
 2. 左子树给个结果，右子树给个结果，然后根据题意求结果
 
 # 图 广度优先 （mapbfsproblem）
+
+# 链表问题 （Linked list problem）
+1. 傀儡节点非常重要
+
+# 二分查找 （Binary lookup problem）
+1. 左闭右闭，顺序才能二分
