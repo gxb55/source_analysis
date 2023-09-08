@@ -77,3 +77,6 @@
 # Dynamic programming one problem
 1. 当前状态可以由那几个状态变化过来
 2. 当前依赖之前，由之前可以推到当前，无后效性
+
+# 回溯问题 （Backtracking issues）
+1. 从当前开始递归，然后从后面再返回
