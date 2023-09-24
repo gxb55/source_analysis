@@ -11,8 +11,9 @@ import java.util.Optional;
 public class Solution72 {
     public static void main(String[] args) {
         Solution72 solution72 = new Solution72();
-      //  String word1 = "ros", word2 = "horse";
-         String word1 = "intention", word2 = "execution";
+      //    String word1 = "ros", word2 = "horse";
+         String word1 = "horse", word2 = "ros";
+      //  String word1 = "intention", word2 = "execution";
         // String word1 = "a", word2 = "ab";
         int i = solution72.minDistance(word1, word2);
         System.out.println(i);
@@ -34,55 +35,26 @@ public class Solution72 {
             return word1.length();
         }
 
-        int[][] dp = new int[word2.length()][word1.length()];
-        dp[0][0] = (word1.charAt(0) == word2.charAt(0)) ? 0 : 1;
-        for (int i = 1; i < word1.length(); i++) {
-            boolean b = word1.charAt(i) == word2.charAt(0);
-            int change = b ? 0 : 1;
-            // 删除自己
-            int p1 = 1 + dp[0][i - 1];
-            // 改变自己
-            int p2 = change + dp[0][i - 1];
-            dp[0][i] = Math.min(p1, p2);
+        int[][] dp = new int[word2.length() + 1][word1.length() + 1];
+        for (int i = 0; i < word1.length() + 1; i++) {
+            dp[0][i] = i;
         }
-        for (int i = 1; i < word2.length(); i++) {
-            boolean b = word1.charAt(0) == word2.charAt(i);
-            // 自己+1
-            int p1 = dp[i - 1][0] + 1;
-            int change = b ? 0 : 1;
-            // 自己对上了，其他的增加
-            int p2 = change + i;
-            dp[i][0] = Math.min(p1, p2);
+        for (int i = 0; i < word2.length() + 1; i++) {
+            dp[i][0] = i;
         }
         // word2 长度
         for (int i = 1; i < dp.length; i++) {
-            // word1 长度;因为word2长度不能变，所以word1的长度必须大于word2
+            // word1 长度 word1 转换成 word2
             for (int j = 1; j < dp[i].length; j++) {
-                boolean b = word1.charAt(j) == word2.charAt(i);
-                int change = b ? 0 : 1;
-                int c = 0;
-                // 删除自己
-                int p1 = 1 + dp[i ][j- 1];
-                // 改变自己
-                int p2 = change + dp[i - 1][j - 1];
-                if (i == dp.length - 1) {
-                    if (j >= i) {
-                        c = dp[i].length - j;
-                    } else {
-                        //需要增加的情况
-                        //c = dp.length - j;
-                    }
-
-                }
-                dp[i][j] = Math.min(p1, p2) + c;
+                boolean b = word1.charAt(j - 1) == word2.charAt(i - 1);
+                int c = b ? 0 : 1;
+                dp[i][j] = Math.min(Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1), dp[i - 1][j - 1] + c);
             }
         }
-        int length = word2.length();
-        int integer = Integer.MAX_VALUE;
-        for (int i = 0; i < word1.length(); i++) {
-            integer = Math.min(dp[length - 1][i], integer);
+        for (int[] d : dp) {
+            System.out.println(Arrays.toString(d));
         }
-        return integer;
+        return dp[word2.length()][word1.length()];
     }
 
     private int process(char[] chars1, char[] chars2, int index1, int index2) {
