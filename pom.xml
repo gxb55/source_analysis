@@ -22,6 +22,7 @@
         <module>spring_mvc_solve</module>
         <!-- 笔记 -->
         <module>record</module>
+        <module>my_start</module>
     </modules>
 
     <groupId>com.trip</groupId>
