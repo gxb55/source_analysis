@@ -1,0 +1,7 @@
+官方文档： https://nacos.io/zh-cn/docs/deployment.html
+下载地址：https://github.com/alibaba/nacos/releases/download/2.1.0/nacos-
+server-2.1.0.tar.gz
+解压，进入nacos目录，单机模式启动nacos
+1 #单机模式启动nacos
+2 bin/startup.sh ‐m standalone
+
