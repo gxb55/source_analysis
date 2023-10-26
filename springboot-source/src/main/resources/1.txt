@@ -5,3 +5,63 @@ server-2.1.0.tar.gz
 1 #单机模式启动nacos
 2 bin/startup.sh ‐m standalone
 
+
+nacos
+1. 启动之后注册服务
+1.1 namingService.registerInstance
+1.2 com.alibaba.nacos.client.naming.NacosNamingService#registerInstance(java.lang.String, java.lang.String, int) 这里面会根据实例是否是持久化的选择是grpc还是httpClient
+1.3 com.alibaba.nacos.naming.remote.rpc.handler.InstanceRequestHandler#handle 调用这个接口处理真正注册逻辑
+1.4 事件
+ClientChangedEvent，ClientRegisterServiceEvent，InstanceMetadataEvent
+ClientRegisterServiceEvent->
+        com.alibaba.nacos.naming.core.v2.index.ClientServiceIndexesManager#publisherIndexes 放入服务和client
+                ServiceChangedEvent 事件
+                    com.alibaba.nacos.naming.push.v2.NamingSubscriberServiceV2Impl#onEvent 消费 PushDelayTask任务处理
+                        com.alibaba.nacos.naming.push.v2.task.PushDelayTaskExecuteEngine.PushDelayTaskProcessor#process 使用默认的处理器处理
+                            com.alibaba.nacos.naming.push.v2.task.PushExecuteTask#run 这里面找到所有订阅了这个服务的订阅者，然后通过grpc调用通知到订阅者，根据request的类型找到处理这个的流程的类 request NotifySubscriberRequest
+                                com.alibaba.nacos.client.naming.remote.gprc.NamingPushRequestHandler#requestReply 服务端推过来新的服务，简单点看就是覆盖本地实例
+
+
+
+2. 启动之后服务发现
+NacosNamingService.selectInstances
+com.alibaba.nacos.client.naming.NacosNamingService#selectInstances(java.lang.String, boolean) 查询服务
+    com.alibaba.nacos.client.naming.core.ServiceInfoUpdateService.UpdateTask#UpdateTask 这个任务里面取拉所有的实例，这里是循环调用的，每次再延时在获取
+        com.alibaba.nacos.naming.remote.rpc.handler.ServiceQueryRequestHandler#handle 处理用户获取实例
+            com.alibaba.nacos.naming.core.v2.index.ServiceStorage#getData 获取所有的实例根据service
+            com.alibaba.nacos.naming.core.v2.service.impl.EphemeralClientOperationServiceImpl#subscribeService订阅服务
+                com.alibaba.nacos.naming.core.v2.event.client.ClientOperationEvent.ClientSubscribeServiceEvent#ClientSubscribeServiceEvent 订阅服务事件
+                    com.alibaba.nacos.naming.core.v2.index.ClientServiceIndexesManager#handleClientOperation 找到这个服务把客户端的id放入订阅的map中  ConcurrentMap<Service, Set<String>> subscriberIndexes = new ConcurrentHashMap<>();
+                        com.alibaba.nacos.naming.core.v2.event.service.ServiceEvent.ServiceSubscribedEvent#ServiceSubscribedEvent 再发事件
+                            com.alibaba.nacos.naming.push.v2.task.PushDelayTaskExecuteEngine.PushDelayTaskProcessor#process 针对是订阅还是注册来通知服务，如果是订阅则通知订阅服务，如果是注册则通知所有的订阅服务
+
+
+
+
+
+
+
+
+
+
+
+EphemeralIpPortClientManager
+ clientId对应的ip和端口号信息
+ ConcurrentMap<String, IpPortBasedClient> clients = new ConcurrentHashMap<>();
+
+ ClientServiceIndexesManager
+    服务名对应的clientId，如果多个服务，那服务名是一个但是clientId是多个，根据clientId获取具体的服务信息
+     private final ConcurrentMap<Service, Set<String>> publisherIndexes = new ConcurrentHashMap<>();
+      服务名对应的订阅的clientId
+     private final ConcurrentMap<Service, Set<String>> subscriberIndexes = new ConcurrentHashMap<>();
+
+
+
+
+com.alibaba.nacos.naming.core.v2.index.ClientServiceIndexesManager#publisherIndexes 先从这个里面根据服务名称获取clientid
+com.alibaba.nacos.naming.core.v2.client.manager.impl.EphemeralIpPortClientManager#clients 根据clientId获取到服务的注册信息
+IpPortBasedClient的父类AbstractClient 里面保存着
+ConcurrentHashMap<Service, InstancePublishInfo> publishers = new ConcurrentHashMap<>(16, 0.75f, 1); 服务和实例的映射，根据InstancePublishInfo转换成instance
+ConcurrentHashMap<Service, Subscriber> subscribers = new ConcurrentHashMap<>(16, 0.75f, 1); 服务和订阅者的映射
+
+Client 是什么维度？ 是连接维度，A链接到注册中心的维度，即A订阅了那些服务，注册了哪些服务
