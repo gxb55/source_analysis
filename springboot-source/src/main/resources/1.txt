@@ -38,10 +38,19 @@ com.alibaba.nacos.client.naming.NacosNamingService#selectInstances(java.lang.Str
 
 
 
+3.集群同步信息
+com.alibaba.nacos.naming.consistency.ephemeral.distro.v2.DistroClientDataProcessor#syncToAllServer
+    com.alibaba.nacos.core.distributed.distro.DistroProtocol#syncToTarget 除了自己通知到其他的集群
+        com.alibaba.nacos.core.distributed.distro.task.delay.DistroDelayTaskProcessor#process task处理任务根据action
+            com.alibaba.nacos.core.distributed.distro.task.execute.DistroSyncChangeTask 自己实现了runnable接口自己是一个task，不用找处理器处理自己处理自己在run方法中
+                com.alibaba.nacos.naming.consistency.ephemeral.distro.v2.DistroClientTransportAgent#syncData(com.alibaba.nacos.core.distributed.distro.entity.DistroData, java.lang.String, com.alibaba.nacos.core.distributed.distro.component.DistroCallback) 同步数据到其他集群
+                    com.alibaba.nacos.naming.remote.rpc.handler.DistroDataRequestHandler#handle 别的集群接收到请求开始处理
+                        com.alibaba.nacos.naming.core.v2.client.manager.impl.EphemeralIpPortClientManager#clientConnected(com.alibaba.nacos.naming.core.v2.client.Client) 用请求的数据来代替client对应的ip和post信息
+                            com.alibaba.nacos.naming.consistency.ephemeral.distro.v2.DistroClientDataProcessor#upgradeClient 有疑问  https://www.cnblogs.com/lukama/p/14918667.html
 
 
 
-
+4.节点加入集群，数据同步问题
 
 
 
