@@ -1,11 +1,7 @@
 package com.trip.algorithm.leet.some.leet2311;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author xbguo
@@ -13,15 +9,25 @@ import java.util.Set;
  */
 public class Solution2258 {
     public static void main(String[] args) {
-        int[][] grid = {
+        /*int[][] grid = {
                 {0, 2, 0, 0, 0, 0, 0},
                 {0, 0, 0, 2, 2, 1, 0},
                 {0, 2, 0, 0, 1, 2, 0},
                 {0, 0, 2, 2, 2, 0, 2},
-                {0, 0, 0, 0, 0, 0, 0}};
+                {0, 0, 0, 0, 0, 0, 0}};*/
 
         // int[][] grid = {{0,0,0,0},{0,1,2,0},{0,2,0,0}};
-        // int[][] grid = {{0,0,0},{2,2,0},{1,2,0}};
+        //  int[][] grid = {{0,0,0},{2,2,0},{1,2,0}};
+        int[][] grid = {
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 2, 0, 2, 0},
+                {0, 2, 0, 2, 2, 0, 2, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 2, 0, 2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 0, 2, 2, 2},
+                {0, 2, 0, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 2, 2, 0, 0, 0, 0},
+                {0, 2, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 2, 0, 0, 2, 2, 2, 0, 2, 2, 2},
+                {0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 2, 0, 2, 0, 0, 2, 0},
+                {2, 0, 2, 2, 2, 0, 2, 0, 2, 2, 0, 2, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0},
+                {0, 0, 2, 0, 0, 0, 2, 0, 0, 2, 0, 2, 2, 2, 0, 2, 0, 0, 2, 2, 2, 0},
+                {2, 0, 2, 0, 2, 0, 1, 2, 0, 2, 0, 0, 0, 2, 0, 2, 0, 2, 2, 0, 0, 0}};
       /*  int i = maximumMinutes(grid);
         System.out.println(i);*/
 
@@ -38,7 +44,7 @@ public class Solution2258 {
                 int v = grid[i][j];
                 if (v == 2) {
                     unTouchSet.add(i + "-" + j);
-                    grid[i][j] = -100000;
+                    grid[i][j] = -1;
                 }
             }
         }
@@ -56,7 +62,7 @@ public class Solution2258 {
                 right = mid - 1;
             }
         }
-        if (left == xLen * yLen) {
+        if (left >= (xLen * yLen)) {
             return 1000000000;
         }
         return t != -1 ? t : -1;
@@ -80,24 +86,23 @@ public class Solution2258 {
         int v = mid;
         while (!list.isEmpty() && mid > 0) {
             List<int[]> nextList = new ArrayList<>();
-
             for (int i = 0; i < list.size(); i++) {
                 int x = list.get(i)[0];
                 int y = list.get(i)[1];
                 int val = arr[x][y];
-                if ((x - 1) >= 0 && !unTouchSet.contains((x - 1) + "-" + y) && set.add((x - 1) + "-" + y) && arr[x - 1][y] == 0) {
+                if ((x - 1) >= 0 && !unTouchSet.contains((x - 1) + "-" + y) && set.add((x - 1) + "-" + y) ) {
                     arr[x - 1][y] = val + 1;
                     nextList.add(new int[]{x - 1, y});
                 }
-                if ((x + 1) < xLen && !unTouchSet.contains((x + 1) + "-" + y) && set.add((x + 1) + "-" + y) && arr[x + 1][y] == 0) {
+                if ((x + 1) < xLen && !unTouchSet.contains((x + 1) + "-" + y) && set.add((x + 1) + "-" + y)  ) {
                     arr[x + 1][y] = val + 1;
                     nextList.add(new int[]{x + 1, y});
                 }
-                if ((y - 1) >= 0 && !unTouchSet.contains((x) + "-" + (y - 1)) && set.add((x) + "-" + (y - 1)) && arr[x][y - 1] == 0) {
+                if ((y - 1) >= 0 && !unTouchSet.contains((x) + "-" + (y - 1)) && set.add((x) + "-" + (y - 1))  ) {
                     arr[x][y - 1] = val + 1;
                     nextList.add(new int[]{x, y - 1});
                 }
-                if ((y + 1) < yLen && !unTouchSet.contains((x) + "-" + (y + 1)) && set.add((x) + "-" + (y + 1)) && arr[x][y + 1] == 0) {
+                if ((y + 1) < yLen && !unTouchSet.contains((x) + "-" + (y + 1)) && set.add((x) + "-" + (y + 1)) ) {
                     arr[x][y + 1] = val + 1;
                     nextList.add(new int[]{x, y + 1});
                 }
@@ -113,61 +118,71 @@ public class Solution2258 {
         List<int[]> perList = new ArrayList<>();
         perList.add(new int[]{0, 0});
         perSet.add("0-0");
-        while (!list.isEmpty()) {
-            perList = getPerson(arr, v, perSet, perList);
+        if (list.isEmpty()) {
+            while (!perList.isEmpty()) {
+                perList = getPerson(arr, v, perSet, perList, unTouchSet);
+            }
+        }
 
+        while (!list.isEmpty()) {
+            perList = getPerson(arr, v, perSet, perList, unTouchSet);
+            if (perList.size() == 0) {
+                if (perSet.contains((xLen - 1) + "-" + (yLen - 1))) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
             List<int[]> nextList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 int x = list.get(i)[0];
                 int y = list.get(i)[1];
                 int val = arr[x][y];
                 if ((x - 1) >= 0) {
-                    if (arr[x - 1][y] < 0&&!unTouchSet.contains((x + 1) + "-" + y)) {
-                        return false;
-                    }
-                    if (!unTouchSet.contains((x - 1) + "-" + y) && set.add((x - 1) + "-" + y) && arr[x - 1][y] == 0) {
+                    if (!unTouchSet.contains((x - 1) + "-" + y) && set.add((x - 1) + "-" + y) && arr[x - 1][y] <= 0) {
                         arr[x - 1][y] = val + 1;
                         nextList.add(new int[]{x - 1, y});
                     }
 
                 }
                 if ((x + 1) < xLen) {
-                    if (arr[x + 1][y] < 0&&!unTouchSet.contains((x + 1) + "-" + y)) {
-                        return false;
-                    }
-                    if (!unTouchSet.contains((x + 1) + "-" + y) && set.add((x + 1) + "-" + y) && arr[x + 1][y] == 0) {
+                    if (!unTouchSet.contains((x + 1) + "-" + y) && set.add((x + 1) + "-" + y) && arr[x + 1][y] <= 0) {
                         arr[x + 1][y] = val + 1;
                         nextList.add(new int[]{x + 1, y});
                     }
                 }
                 if ((y - 1) >= 0) {
-                    if (arr[x][y - 1] < 0&&!unTouchSet.contains((x + 1) + "-" + y)) {
-                        return false;
-                    }
-                    if (!unTouchSet.contains((x) + "-" + (y - 1)) && set.add((x) + "-" + (y - 1)) && arr[x][y - 1] == 0) {
+                    if (!unTouchSet.contains((x) + "-" + (y - 1)) && set.add((x) + "-" + (y - 1)) && arr[x][y - 1] <= 0) {
                         arr[x][y - 1] = val + 1;
                         nextList.add(new int[]{x, y - 1});
                     }
 
                 }
-                if ((y + 1) < yLen && !unTouchSet.contains((x) + "-" + (y + 1)) && set.add((x) + "-" + (y + 1)) && arr[x][y + 1] == 0) {
-                    if (arr[x][y + 1] < 0&&!unTouchSet.contains((x + 1) + "-" + y)) {
-                        return false;
-                    }
-                    if (!unTouchSet.contains((x) + "-" + (y + 1)) && set.add((x) + "-" + (y + 1)) && arr[x][y + 1] == 0) {
-                        arr[x][y + 1] = val + 1;
-                        nextList.add(new int[]{x, y + 1});
-                    }
+                if ((y + 1) < yLen && !unTouchSet.contains((x) + "-" + (y + 1)) && set.add((x) + "-" + (y + 1)) && arr[x][y + 1] <= 0) {
+                    arr[x][y + 1] = val + 1;
+                    nextList.add(new int[]{x, y + 1});
                 }
             }
             list = nextList;
+            perList.removeAll(list);
+            List<String> collect = list.stream().map(x -> x[0] + "-" + x[1]).collect(Collectors.toList());
+            List<String> collect1 = perList.stream().map(x -> x[0] + "-" + x[1]).collect(Collectors.toList());
+            collect1.removeAll(collect);
+            perList=  collect1.stream().map(x->{
+                String[] split = x.split("-");
+               return new int[]{Integer.parseInt(split[0]),Integer.parseInt(split[1])};
+            }).collect(Collectors.toList());
         }
-
+        if (list.isEmpty()) {
+            while (!perList.isEmpty()) {
+                perList = getPerson(arr, v, perSet, perList, unTouchSet);
+            }
+        }
         return perSet.contains((xLen - 1) + "-" + (yLen - 1));
 
     }
 
-    private List<int[]> getPerson(int[][] grid, int v, Set<String> set, List<int[]> list) {
+    private List<int[]> getPerson(int[][] grid, int v, Set<String> set, List<int[]> list, Set<String> unTouchSet) {
         int xLen = grid.length;
         int yLen = grid[0].length;
         List<int[]> nextList = new ArrayList<>();
@@ -175,19 +190,19 @@ public class Solution2258 {
             int x = list.get(i)[0];
             int y = list.get(i)[1];
             int val = grid[x][y];
-            if ((x - 1) >= 0 && grid[x - 1][y] == 0 && set.add((x - 1) + "-" + y)) {
+            if ((x - 1) >= 0 && grid[x - 1][y] == 0 && set.add((x - 1) + "-" + y) && !unTouchSet.contains((x - 1) + "-" + y)) {
                 grid[x - 1][y] = val - 1;
                 nextList.add(new int[]{x - 1, y});
             }
-            if ((x + 1) < xLen && grid[x + 1][y] == 0 && set.add((x + 1) + "-" + y)) {
+            if ((x + 1) < xLen && grid[x + 1][y] == 0 && set.add((x + 1) + "-" + y) && !unTouchSet.contains((x + 1) + "-" + y)) {
                 grid[x + 1][y] = val - 1;
                 nextList.add(new int[]{x + 1, y});
             }
-            if ((y - 1) >= 0 && grid[x][y - 1] == 0 && set.add((x) + "-" + (y - 1))) {
+            if ((y - 1) >= 0 && grid[x][y - 1] == 0 && set.add((x) + "-" + (y - 1)) && !unTouchSet.contains((x) + "-" + (y - 1))) {
                 grid[x][y - 1] = val - 1;
                 nextList.add(new int[]{x, y - 1});
             }
-            if ((y + 1) < yLen && grid[x][y + 1] == 0 && set.add((x) + "-" + (y + 1))) {
+            if ((y + 1) < yLen && grid[x][y + 1] == 0 && set.add((x) + "-" + (y + 1)) && !unTouchSet.contains((x) + "-" + (y + 1))) {
                 grid[x][y + 1] = val - 1;
                 nextList.add(new int[]{x, y + 1});
             }
