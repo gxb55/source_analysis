@@ -11,12 +11,12 @@ import java.util.Stack;
  */
 public class Solution907 {
     public static void main(String[] args) {
-       // int[] arr={3,1,2,4};
-        int[] arr={11,81,94,43,3};
+        int[] arr={3,1,2,4};
+       // int[] arr={11,81,94,43,3};
         Solution907 solution907 =new Solution907();
         int i = solution907.sumSubarrayMins(arr);
         System.out.println(i);
-        System.out.println(solution907.sumSubarrayMins1(arr));
+       // System.out.println(solution907.sumSubarrayMins1(arr));
     }
 
     public int sumSubarrayMins(int[] arr) {
