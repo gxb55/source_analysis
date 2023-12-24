@@ -1,8 +1,11 @@
 package com.trip.springbootsource.controller;
 
-import org.aspectj.lang.annotation.Aspect;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.trip.springbootsource.module.Response;
+import com.trip.springbootsource.module.User;
+import com.trip.springbootsource.service.TestServiceInterface;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * @author xbguo
@@ -11,8 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
+    @Resource
+    private TestServiceInterface serviceInterface;
     @GetMapping("/hello")
     public String sayHello(){
         return "hi Boot";
+    }
+
+    @PostMapping(value = "/addUser")
+    public Response addUser(@RequestBody User user){
+        return serviceInterface.addUser(user);
+    }
+    @PostMapping(value = "/delUser")
+    public Response delUser(@RequestBody User user){
+        return serviceInterface.delUser(user);
+    }
+    @PostMapping(value = "/queryUserList")
+    public Response queryUserList(){
+        return serviceInterface.queryUserList();
     }
 }
