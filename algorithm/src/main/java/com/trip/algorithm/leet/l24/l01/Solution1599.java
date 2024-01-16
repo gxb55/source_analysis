@@ -1,4 +1,4 @@
-package com.trip.algorithm.leet.l24;
+package com.trip.algorithm.leet.l24.l01;
 
 /**
  * 按照题意模拟即可，没有特殊的算法，O（1）的时间复杂度
