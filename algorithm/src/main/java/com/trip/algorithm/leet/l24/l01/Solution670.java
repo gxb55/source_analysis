@@ -6,26 +6,43 @@ package com.trip.algorithm.leet.l24.l01;
  */
 public class Solution670 {
     public static void main(String[] args) {
-
+        Solution670 solution670 = new Solution670();
+        //  int cur = 9973;
+        // int cur = 98368;
+        int cur = 1993;
+        int i = solution670.maximumSwap(cur);
+        System.out.println(i);
     }
 
     public int maximumSwap(int num) {
         String val = String.valueOf(num);
-        int left=0;
-        int right=val.length()-1;
+        int left = 0;
+        int right = -1;
         char[] charArray = val.toCharArray();
-        while (left<right){
-            while (val.charAt(left)=='9'){
+        boolean flag = false;
+        while (left < val.length()) {
+            while (left < val.length() && val.charAt(left) == '9') {
                 left++;
             }
-            for (int i = left+1; i < charArray.length; i++) {
-                if(charArray[i]>charArray[left]&&charArray[i]>charArray[right]){
-                    right=i;
+            for (int i = left + 1; i < charArray.length; i++) {
+                if (charArray[i] > charArray[left] && (right == -1 || charArray[i] >= charArray[right])) {
+                    right = i;
+                    flag = true;
                 }
             }
-            break;
+            if (flag) {
+                break;
+            }
+            left++;
+        }
+        if (!flag) {
+            return num;
         }
 
-        return 0;
+        char c = charArray[left];
+        charArray[left] = charArray[right];
+        charArray[right] = c;
+        String string = new String(charArray);
+        return Integer.parseInt(string);
     }
 }

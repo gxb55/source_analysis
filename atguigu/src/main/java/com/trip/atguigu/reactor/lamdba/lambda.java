@@ -55,9 +55,20 @@ public class lambda {
         System.out.println(predicate.test(10));
         System.out.println(predicate.negate().test(10));
 
-
+        System.out.println("======================================");
 
         List<Integer> list1 = Arrays.asList(1,1,2,3,4,5,6,7,8,8,9,8,8,9,10);
+        list1.stream().filter(x->{
+            System.out.println("fileter:"+x);
+            return x%2==0;
+        }).map(x->{
+            System.out.println("map:"+x);
+            return x*2;
+        }).peek(x->{
+            System.out.println("peek:"+x);
+        }).forEach(x->{
+            System.out.println("forEach:"+x);
+        });
         Map<Integer, Integer> collect = list1.stream().collect(Collectors.toMap((x) -> x, (y) -> 2 * y, (x, y) -> x));
         System.out.println(collect);
     }
