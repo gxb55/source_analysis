@@ -3,9 +3,21 @@ package reactor;
 import org.testng.annotations.Test;
 import reactor.core.publisher.Flux;
 
+import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestReactorAPI {
+    @Test
+    void timeOutAndRetry() throws IOException {
+        Flux.just(1,2,3).delayElements(Duration.ofSeconds(3))
+                .timeout(Duration.ofSeconds(1))
+                .retry(3)
+                .map(x->"aa"+x)
+                .log()
+                .subscribe();
+        System.in.read();
+    }
     @Test
     void merge() {
         // 按照流的先后顺序来构建，concat 链接多个流，
@@ -18,6 +30,7 @@ public class TestReactorAPI {
         Flux.mergeSequential();
 
     }
+
     @Test
     void empty() {
         Flux<Object> empty = Flux.empty();
@@ -25,15 +38,45 @@ public class TestReactorAPI {
         empty.defaultIfEmpty("x").log().subscribe();
         empty.switchIfEmpty(Flux.range(0, 2)).log().subscribe();
     }
+
     @Test
     void zip() {
-        Flux.just(1,2,3).zipWith(Flux.just("A","B","C"))
-                .map(x->x.getT1()+":"+x.getT2()).log().subscribe();
+        Flux.just(1, 2, 3).zipWith(Flux.just("A", "B", "C"))
+                .map(x -> x.getT1() + ":" + x.getT2()).log().subscribe();
     }
+
     @Test
     void error() {
-       Flux.range(1,3).log().subscribe();
+        Flux<Integer> map = Flux.range(1, 4)
+                .map(x -> x / (x - 3));
+
+        //   map.onErrorReturn(NullPointerException.class,100)
+//        map.onErrorResume(x -> {
+//                    boolean b = x.getClass() == NullPointerException.class;
+//                    return Mono.just(20);
+//                })
+        //   map.onErrorResume(x -> Flux.error(new NullPointerException()))
+        //      map.onErrorMap(x->new Exception())
+//        map.doOnError(x -> {
+//                    System.out.println("error");
+//                })
+        // do开头的不吃异常
+       /* map.doFinally(x -> {
+                    System.out.println("只是一个信号别的啥也不干" + x);
+                })*/
+        map.onErrorContinue((err, val) -> {
+                    System.out.println("err" + err);
+                    System.out.println("val" + val);
+                })
+                .subscribe(x -> {
+                    System.out.println(x);
+                }, x -> {
+                    System.out.println(x);
+                }, () -> {
+                    System.out.println("流结束了");
+                });
     }
+
     @Test
     void transform() {
         //transformDeferred 共享外部变量 每次都执行
