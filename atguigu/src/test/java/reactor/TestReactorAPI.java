@@ -2,22 +2,56 @@ package reactor;
 
 import org.testng.annotations.Test;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Sinks;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestReactorAPI {
     @Test
+    void block() throws IOException {
+        List<Integer> block = Flux.just(1, 2, 3, 4)
+                .map(x -> x * 10)
+                .collectList()
+                .block();
+        System.out.println(block);
+    }
+    @Test
+    void sinks() throws IOException {
+        Sinks.Many<Object> objectMany = Sinks
+                .many()
+               // .unicast()
+                .multicast()
+                .onBackpressureBuffer();
+        new Thread(()->{
+            for (int i = 0; i < 10; i++) {
+                objectMany.tryEmitNext("a" + i);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+
+                }
+            }
+        }).start();
+
+        objectMany.asFlux().subscribe(x->System.out.println(x));
+        objectMany.asFlux().subscribe(x->System.out.println(x));
+        System.in.read();
+    }
+
+    @Test
     void timeOutAndRetry() throws IOException {
-        Flux.just(1,2,3).delayElements(Duration.ofSeconds(3))
+        Flux.just(1, 2, 3).delayElements(Duration.ofSeconds(3))
                 .timeout(Duration.ofSeconds(1))
                 .retry(3)
-                .map(x->"aa"+x)
+                .map(x -> "aa" + x)
                 .log()
                 .subscribe();
         System.in.read();
     }
+
     @Test
     void merge() {
         // 按照流的先后顺序来构建，concat 链接多个流，
