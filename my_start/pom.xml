@@ -10,6 +10,7 @@
     <groupId>com.trip</groupId>
     <artifactId>my_start</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>my_start</name>
     <description>my_start</description>
     <properties>
