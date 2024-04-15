@@ -18,6 +18,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
         String content = String.format("Receive http request, uri: %s, method: %s, content: %s%n", msg.uri(), msg.method(), msg.content().toString(CharsetUtil.UTF_8));
+        System.out.println("HttpServer接受到请求：" + content);
         DefaultFullHttpResponse response = new DefaultFullHttpResponse(
                 HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK

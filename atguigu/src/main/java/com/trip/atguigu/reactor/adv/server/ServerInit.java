@@ -12,7 +12,7 @@ public class ServerInit extends ChannelInitializer<SocketChannel> {
         ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,0,2,0,2));
         ch.pipeline().addLast(new LengthFieldPrepender(2));
 
-        ch.pipeline().addLast(new KryoDecoder());
-        ch.pipeline().addLast(new KryoEecoder());
+       /* ch.pipeline().addLast(new KryoDecoder());
+        ch.pipeline().addLast(new KryoEecoder());*/
     }
 }
