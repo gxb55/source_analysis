@@ -2,6 +2,7 @@ package com.trip.atguigu.reactor.netty.http;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.UnpooledByteBufAllocator;
 
 public class ByteBufTest {
     public static void main(String[] args) {
@@ -16,6 +17,8 @@ public class ByteBufTest {
         byte[] read = new byte[buffer.readableBytes()];
         buffer.readBytes(read);
         printByteBufInfo("readBytes(" + buffer.readableBytes() + ")", buffer);
+
+        ByteBuf buffer1 = UnpooledByteBufAllocator.DEFAULT.buffer(10);
 
     }
 
