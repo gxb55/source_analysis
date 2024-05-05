@@ -16,7 +16,7 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         String str = "Hello Netty" + System.getProperty("line.separator");
         ByteBufAllocator alloc = ctx.alloc();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1; i++) {
             String msg = i + ":" + str;
             ByteBuf buffer = alloc.buffer(msg.length());
             buffer.writeBytes(msg.getBytes());
