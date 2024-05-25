@@ -12,8 +12,7 @@ public class Solution741 {
 
     public static void main(String[] args) {
         //  int[][] grid = {{0, 1, -1}, {1, 0, -1}, {1, 1, 1}};
-        //int[][] grid = {{1, 1, -1}, {1, -1, 1}, {-1, 1, 1}};
-        int[][] grid = {{1}};
+        int[][] grid = {{1, 1, -1}, {1, -1, 1}, {-1, 1, 1}};
         int i = cherryPickup(grid);
         System.out.println(i);
     }
@@ -25,12 +24,7 @@ public class Solution741 {
         int x = grid.length;
         int y = grid[0].length;
         int[][] dp = new int[x][y];
-        if (grid[x - 1][y - 1] == -1) {
-            return 0;
-        }
-        if (y == 1 && x == 1) {
-            return grid[x - 1][y - 1];
-        }
+
         //向下或向右走
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -108,7 +102,9 @@ public class Solution741 {
                 }
             }
         }
-
+        if (dp[0][0] == 0) {
+            return 0;
+        }
         return dp[0][0] + last;
     }
 }
