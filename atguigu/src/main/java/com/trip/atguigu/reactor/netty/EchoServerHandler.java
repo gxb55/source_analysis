@@ -25,4 +25,10 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         cause.printStackTrace();
         ctx.close();
     }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channelActive:" );
+        super.channelActive(ctx);
+    }
 }
