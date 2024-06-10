@@ -35,18 +35,20 @@ public class EchoServer {
         sync.channel().closeFuture().sync();
         group.shutdownGracefully().sync();
     }
+
+
 }
 /**
- *  1.initAndRegister()
- *      1.1 channelFactory.newChannel()  初始化channel，初始化pipeline，初始化head tail
- *      1.2 init(channel); 设置属性，设置option
- *      1.3 config().group().register(channel);
- *          safeSetSuccess(promise);
- *          javaChannel().register(eventLoop().unwrappedSelector(), 0, this); 设置ChannelFuture为成功
- *  2.doBind0(regFuture, channel, localAddress, promise);
- *      2.1 HeadContext#bind(io.netty.channel.ChannelHandlerContext, java.net.SocketAddress, io.netty.channel.ChannelPromise)
- *          2.1.1 AbstractUnsafe#bind(java.net.SocketAddress, io.netty.channel.ChannelPromise)
- *              2.1.1.1 DefaultChannelPipeline#fireChannelActive()
- *                  2.1.1.1.1 HeadContext#channelActive(io.netty.channel.ChannelHandlerContext)
- *                      2.1.1.1.1 io.netty.channel.nio.AbstractNioChannel#doBeginRead()
+ * 1.initAndRegister()
+ * 1.1 channelFactory.newChannel()  初始化channel，初始化pipeline，初始化head tail
+ * 1.2 init(channel); 设置属性，设置option
+ * 1.3 config().group().register(channel);
+ * safeSetSuccess(promise);
+ * javaChannel().register(eventLoop().unwrappedSelector(), 0, this); 设置ChannelFuture为成功
+ * 2.doBind0(regFuture, channel, localAddress, promise);
+ * 2.1 HeadContext#bind(io.netty.channel.ChannelHandlerContext, java.net.SocketAddress, io.netty.channel.ChannelPromise)
+ * 2.1.1 AbstractUnsafe#bind(java.net.SocketAddress, io.netty.channel.ChannelPromise)
+ * 2.1.1.1 DefaultChannelPipeline#fireChannelActive()
+ * 2.1.1.1.1 HeadContext#channelActive(io.netty.channel.ChannelHandlerContext)
+ * 2.1.1.1.1 io.netty.channel.nio.AbstractNioChannel#doBeginRead()
  */
