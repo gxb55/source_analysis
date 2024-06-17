@@ -37,6 +37,9 @@ public class EchoServer {
     }
 }
 /**
+ * 
+ * nio Demo https://blog.csdn.net/oFangFeiMeng1/article/details/131320426
+ * 
  *  1.initAndRegister()
  *      1.1 channelFactory.newChannel()  初始化channel，初始化pipeline，初始化head tail
  *      1.2 init(channel); 设置属性，设置option
