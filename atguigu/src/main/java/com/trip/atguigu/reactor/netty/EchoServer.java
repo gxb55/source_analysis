@@ -16,9 +16,10 @@ public class EchoServer {
     public static final int port = 8088;
 
     public static void main(String[] args) throws InterruptedException {
-        EventLoopGroup group = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup workGroup = new NioEventLoopGroup();
         ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(group)
+        bootstrap.group(bossGroup,workGroup)
                 .channel(NioServerSocketChannel.class)
                 .localAddress(new InetSocketAddress(port))
                 .option(ChannelOption.SO_BACKLOG, 1024)
@@ -33,12 +34,28 @@ public class EchoServer {
                 });
         ChannelFuture sync = bootstrap.bind().sync();
         sync.channel().closeFuture().sync();
-        group.shutdownGracefully().sync();
+        bossGroup.shutdownGracefully().sync();
+        workGroup.shutdownGracefully().sync();
     }
 }
 /**
  * 
  * nio Demo https://blog.csdn.net/oFangFeiMeng1/article/details/131320426
+ * 
+ * 
+ *               1.// 创建一个ServerSocketChannel实例
+ *              ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) 
+ *
+ *             // 设置为非阻塞模式
+ *             serverSocketChannel.configureBlocking(false);
+ *             2.// 绑定端口
+ *             serverSocketChannel.socket().bind(new InetSocketAddress(8080));
+ *             // 注册到Selector，监听ACCEPT事件
+ *             3.serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+ *
+ *             
+ *                 // 阻塞等待就绪的事件
+ *               4. selector.select(TIMEOUT)
  * 
  *  1.initAndRegister()
  *      1.1 channelFactory.newChannel()  初始化channel，初始化pipeline，初始化head tail
