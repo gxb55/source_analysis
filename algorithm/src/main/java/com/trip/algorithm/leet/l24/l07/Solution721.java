@@ -36,7 +36,7 @@ public class Solution721 {
             }
             List<Integer> list =new ArrayList<>();
             
-            map.entrySet().stream().
+          
         }
         return null;
     }
