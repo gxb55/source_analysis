@@ -29,7 +29,6 @@ public class Solution3148 {
         int[][] dp = new int[grid.size()][grid.get(0).size()];
         int len = grid.size();
         dp[0][0] = 0;
-        int[][] curValArr =new int[][]
         for (int i = 1; i < len; i++) {
             Integer cur = grid.get(i).get(0);
             Integer last = grid.get(i - 1).get(0);
