@@ -1,4 +1,4 @@
-package com.trip.algorithm.leet.l24.hot100;
+package com.trip.algorithm.leet.l24.l100;
 
 public class Solution136 {
     public static void main(String[] args) {

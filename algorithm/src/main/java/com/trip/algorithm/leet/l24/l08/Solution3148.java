@@ -21,7 +21,7 @@ public class Solution3148 {
         for (int[] arr : grid) {
             list.add(Arrays.stream(arr).boxed().collect(Collectors.toList()));
         }
-        int i = maxScore(list);
+        int i = maxScore1(list);
         System.out.println(i);
     }
 
@@ -29,14 +29,18 @@ public class Solution3148 {
         int[][] dp = new int[grid.size()][grid.get(0).size()];
         int len = grid.size();
         dp[0][0] = 0;
-        int[][] curValArr =new int[][]
+
+        int[][] arr = new int[dp.length][dp[0].length];
+        arr[0][0] = grid.get(0).get(0);
         for (int i = 1; i < len; i++) {
             Integer cur = grid.get(i).get(0);
             Integer last = grid.get(i - 1).get(0);
             if (cur > last) {
+
                 dp[i][0] = dp[i - 1][0] + cur - last;
             } else {
                 dp[i][0] = dp[i - 1][0];
+                grid.get(i).set(0, last);
             }
         }
         List<Integer> list = grid.get(0);
@@ -47,6 +51,7 @@ public class Solution3148 {
                 dp[0][i] = dp[0][i - 1] + cur - last;
             } else {
                 dp[0][i] = dp[0][i - 1];
+                list.set(i, last);
             }
         }
 
@@ -60,5 +65,25 @@ public class Solution3148 {
         }
         return dp[dp.length - 1][dp[0].length - 1];
 
+    }
+
+    public static int maxScore1(List<List<Integer>> grid) {
+        int ans = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        int[][] dp = new int[grid.size()][grid.get(0).size()];
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp[i].length; j++) {
+                int minTemp = min;
+                if (i > 0) {
+                    minTemp = Math.min(minTemp, dp[i - 1][j]);
+                }
+                if (j > 0) {
+                    minTemp = Math.min(minTemp, dp[i][j - 1]);
+                }
+                ans = Math.max(ans, grid.get(i).get(j) - minTemp);
+                dp[i][j]=Math.min(grid.get(i).get(j),minTemp);
+            }
+        }
+        return ans;
     }
 }
