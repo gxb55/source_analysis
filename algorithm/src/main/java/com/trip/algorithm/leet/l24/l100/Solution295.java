@@ -2,6 +2,7 @@ package com.trip.algorithm.leet.l24.l100;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * @author xbguo
@@ -10,14 +11,10 @@ import java.util.List;
  */
 public class Solution295 {
     public static void main(String[] args) {
-        MedianFinder finder =new MedianFinder();
-        finder.addNum(6);
-        finder.addNum(10);
+        MedianFinder1 finder = new MedianFinder1();
+        finder.addNum(1);
+
         finder.addNum(2);
-        finder.addNum(6);
-        finder.addNum(5);
-        finder.addNum(0);
-        finder.addNum(6);
         System.out.println(finder.findMedian());
         finder.addNum(3);
         System.out.println(finder.findMedian());
@@ -49,7 +46,7 @@ class MedianFinder {
                 list.add(num);
             } else {
                 int t = getIndex(list, num);
-                list.add(t,num);
+                list.add(t, num);
             }
         }
         System.out.println(list);
@@ -80,5 +77,39 @@ class MedianFinder {
         }
         int i = size / 2;
         return (list.get(i) + list.get(i - 1)) / 2.0;
+    }
+}
+
+class MedianFinder1 {
+
+
+    public MedianFinder1() {
+
+    }
+
+    // 从小到大
+    private PriorityQueue<Integer> minQueue = new PriorityQueue<>((y, x) -> x - y);
+    // 从大到小
+    private PriorityQueue<Integer> maxQueue = new PriorityQueue<>((x, y) -> x - y);
+
+    public void addNum(int num) {
+        if (minQueue.isEmpty() || num < minQueue.peek()) {
+            minQueue.add(num);
+            if (maxQueue.size() + 1 < minQueue.size()) {
+                maxQueue.add(minQueue.poll());
+            }
+        } else {
+            maxQueue.add(num);
+            if (maxQueue.size() > minQueue.size()) {
+                minQueue.add(maxQueue.poll());
+            }
+        }
+    }
+
+    public double findMedian() {
+        if (maxQueue.size() == minQueue.size()) {
+            return (minQueue.peek() + maxQueue.peek()) / 2.0;
+        }
+        return minQueue.peek();
     }
 }
