@@ -1,6 +1,7 @@
 package com.trip.algorithm.leet.l24.l100;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -17,6 +18,16 @@ public class Solution149 {
         lruCache.put(3,3);
         int i = lruCache.get(2);
         System.out.println(i);
+
+        int count=5;
+        LinkedHashMap<Integer, Integer> integerIntegerLinkedHashMap = new LinkedHashMap<>(){
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+                return size()>=count;
+            }
+        };
+
+
     }
 }
 
