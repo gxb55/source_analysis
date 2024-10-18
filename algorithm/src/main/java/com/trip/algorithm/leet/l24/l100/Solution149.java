@@ -103,11 +103,11 @@ class LRUCache {
         pre.next=next;
         next.pre=pre;
     }
+     class Node {
+        public Node pre;
+        public Node next;
+        public Integer k;
+        public Integer v;
+    }
 }
 
-class Node {
-    public Node pre;
-    public Node next;
-    public Integer k;
-    public Integer v;
-}
